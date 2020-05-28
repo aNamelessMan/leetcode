@@ -3,7 +3,7 @@
 内存消耗 :7.2 MB, 在所有 C++ 提交中击败了100.00%的用户
 */
   
-  #include<bits/stdc++.h>
+#include<bits/stdc++.h>
 using namespace std;
 
 class Solution {
