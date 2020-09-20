@@ -7,7 +7,7 @@ using namespace std;
 
 // 你可以任意排列 nums 中的数字，请你返回所有查询结果之和的最大值。
 
-// 由于答案可能会很大，请你将它对 109 + 7 取余 后返回。
+// 由于答案可能会很大，请你将它对 10^9 + 7 取余 后返回。
 
  
 
@@ -46,15 +46,18 @@ using namespace std;
 //     1 <= requests.length <= 10^5
 //     requests[i].length == 2
 //     0 <= starti <= endi < n
+
 //过了69/82不知道哪里错了....
-int maxSumRangeQuery(vector<int>& nums, vector<vector<int>>& requests) {
+//...审题不清没看到最后的"对 10^9 + 7 取余 后返回"，一定要审题
+//改完后过了78 / 82，然后超时 
+int TLEmaxSumRangeQuery(vector<int>& nums, vector<vector<int>>& requests) {
     long res = 0;
 
     int freq[nums.size()];
     for(unsigned i = 0; i < nums.size(); i++){
         freq[i] = 0;
     }
-
+    //超时的原因应该在这两层循环
     for(auto &p:requests){
         for(int i = p[0]; i <= p[1]; i++){
             freq[i]++;
@@ -70,9 +73,38 @@ int maxSumRangeQuery(vector<int>& nums, vector<vector<int>>& requests) {
 
     return res;
 }
+// 执行用时：808 ms, 在所有 C++ 提交中击败了100.00% 的用户
+// 内存消耗：93.9 MB, 在所有 C++ 提交中击败了100.00% 的用户
+int maxSumRangeQuery(vector<int>& nums, vector<vector<int>>& requests) {
+    long res = 0;
+    //因为需要更新尾部后一位，所以需要+1
+    int freq[nums.size() + 1];
+
+    for(unsigned i = 0; i < nums.size(); i++){
+        freq[i] = 0;
+    }
+
+    for(auto &p:requests){
+        freq[p[0]]++;
+        freq[p[1] + 1]--;
+    }
+
+    for(unsigned i = 1; i < nums.size(); i++){
+        freq[i] += freq[i - 1];
+    }
+
+    sort(freq, freq + nums.size(), greater<int>());
+    sort(nums.begin(), nums.end(), greater<int>());
+
+    for(unsigned i = 0; i < nums.size(); i++){
+        res += freq[i] * nums[i];
+    }
+
+    return res %(1000000000 + 7);
+}
 
 int main(){
-    vector<int> nums{1,2,3,4,5,6};
-    vector<vector<int>> requests{{0,1}};
+    vector<int> nums{1,8,5,5,2};
+    vector<vector<int>> requests{{4,4},{3,4},{4,4},{2,4},{0,0}};
     cout << maxSumRangeQuery(nums, requests) << endl;
 }
