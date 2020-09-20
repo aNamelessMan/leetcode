@@ -26,6 +26,7 @@ vector<int> dailyTemperatures(vector<int>& T) {
     for(unsigned i = 0; i < T.size(); i++){
 
         while(!st.empty() && T[i] > T[st.top()]){//遍历到更大值后就将栈顶出栈，因此一定是唯一一个也是第一个更大值，距离就是两者差
+                                                                                      //并且while一直出栈，直到栈顶元素为空 或 大于当前值，因此栈内元素一定是递减的，称为递减栈
             auto t = st.top();
             st.pop();
             res[t] = i - t;
