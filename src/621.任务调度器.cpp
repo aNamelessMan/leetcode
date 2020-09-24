@@ -35,7 +35,8 @@ int BFleastInterval(vector<char>& tasks, int n) {
     }
     return pure(freq, n);
 }
-
+//实际上不需要考虑那么多，当上面解法中的no >= n + 1时
+//多出来的随便放在哪两个n+1之间都可以
 int leastInterval(vector<char>& tasks, int n) {
     vector<int> cnt(26, 0);
     for (char task : tasks) {
