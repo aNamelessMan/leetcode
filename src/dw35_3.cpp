@@ -1,6 +1,6 @@
 #include<bits/stdc++.h>
 using namespace std;
-
+//1590.使数组和能被 P 整除  
 int subArraySum(int i, int j, long p[]){
     if(i == 0)return *(p+j);
     else    return (*(p+j)) - (*(p + i - 1));
