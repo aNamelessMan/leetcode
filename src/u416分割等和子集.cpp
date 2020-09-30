@@ -1,6 +1,6 @@
 #include<bits/stdc++.h>
 using namespace std;
-//注意最后需要的两组成分可能都是分隔开的不连续，因此不能用dp来求子数组和
+//注意最后需要的两组成分可能都是分隔开的不连续，因此不能用简单的dp来求子数组和
 bool canPartition(vector<int>& nums) {
     double half = accumulate(nums.begin(), nums.end(),0) / 2.0;
     double half = accumulate(nums.begin(), nums.end(),0) / 2.0;
