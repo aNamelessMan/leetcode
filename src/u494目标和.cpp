@@ -14,9 +14,26 @@ void dfs(vector<int>& nums, int S, unsigned n, int curSum){
         dfs(nums, S, n, curSum);
     }
 }
-int findTargetSumWays(vector<int>& nums, int S) {
+int BFfindTargetSumWays(vector<int>& nums, int S) {
     dfs(nums, S, 0, 0);
     return res;
+}
+// 执行用时：556 ms, 在所有 C++ 提交中击败了37.51% 的用户
+// 内存消耗：49 MB, 在所有 C++ 提交中击败了5.65% 的用户
+int findTargetSumWays(vector<int>& nums, int S) {
+    //可以用dp来解，dp[i][j]表示0到i为止和为S的方法数
+    //i每次+1就要更新在之前基础上所有可能的和值
+    int n = nums.size();
+    vector<map<int, int>> dp(n + 1);
+    dp[0][0] = 1;
+    for(int i = 0; i < n; i++){
+        for(auto &a:dp[i]){
+            int sum = a.first, cnt = a.second;
+            dp[i + 1][sum - nums[i]] += cnt;
+            dp[i + 1][sum + nums[i]] += cnt;
+        }
+    }
+    return dp[n][S];
 }
 
 int main(){

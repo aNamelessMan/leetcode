@@ -12,6 +12,7 @@
  //https://support.leetcode-cn.com/hc/kb/article/1194344/
 class Solution {
 public:
+//这是1038题的代码，只要改下函数名就是538的答案
     int tmp = 0;
     TreeNode* bstToGst(TreeNode* root) {
         if(root != NULL){
