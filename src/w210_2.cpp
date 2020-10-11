@@ -23,7 +23,10 @@ int maximalNetworkRank(int n, vector<vector<int>>& roads) {
         }
     }
     set<int> maxvi;//注意这里的元素不能重复，所以选用set
-    //如果使用vector来存，如果所有的城市都是最大路径，那么会存两次，既是最大，也是第二大
+    //如果使用vector来存，如果所有的城市都是最大路径，那么会存两次，既是最大，也是第二大，导致结果出错
+
+    //还有如果一个数组存的是下标，那取用时一定要想清楚要遍历取出时要的是该数组本身的下标i还是里面存的下标num[i]
+    //想清楚num[i]还是nums[idx[i]]，这次的错误提交基本是因为这个，而且查了好久
     for(int i = 0; i < n; i++){//存下最大路径的idx
         if(num[i] == max){
             maxvi.insert(i);
