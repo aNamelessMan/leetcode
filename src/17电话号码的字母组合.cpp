@@ -15,7 +15,7 @@ void traverseNum(string s, int n){
         for(auto &c:table[s[n] - '0']){
             tmp += c;
             traverseNum(s, n + 1);
-            tmp.pop_back();//注意这行不要忘了
+            tmp.pop_back();//注意这行不要忘了，因为在循环中，马上会再次加上一个字符并递归，但是前后两次迭代时tmp应该是不变的，所以要减去
         }
     }
 }
