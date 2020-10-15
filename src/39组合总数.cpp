@@ -2,6 +2,7 @@
 using namespace std;
 // 执行用时：12 ms, 在所有 C++ 提交中击败了70.15% 的用户
 // 内存消耗：10.9 MB, 在所有 C++ 提交中击败了59.98% 的用户
+//这题并不难，竟然差点看题解了，就是简单的递归回溯暴力解法即可
 vector<vector<int>> res;
 vector<int> tmp;
 void dfs(vector<int>& candidates, int target, int cur, int previ){
