@@ -34,6 +34,37 @@
         }
         return max;
     }
+//2020.10.29笔试写的解法，比上面简单点
+int mylengthOfLongestSubstring(string s) {
+    if(s.empty())return 0;
+    int res = 1;
+    int l = 0, r = 1;
+    
+    int n = s.size();
+    set<int> is;
+    
+    is.insert(s[0]);//忘了加这一行，到最后也没找出来...
+                    //所以以后做题一定要注意初始化是否正确
+
+    while(r < n){
+        if(!is.count(s[r])){
+            is.insert(s[r]);
+            r++;
+            int t = r - l;
+            if(t > res)res = t;
+        }else{
+            while(s[l] != s[r]){
+                is.erase(s[l]);
+                l++;
+            }
+            is.erase(s[l]);
+            l++;
+            is.insert(s[r]);
+            r++;
+        }
+    }
+    return res;
+}
     int main(){
         int l = lengthOfLongestSubstring(" ");
         cout << l << endl;
