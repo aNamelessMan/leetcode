@@ -1,15 +1,8 @@
 #include<bits/stdc++.h>
+#include "Interval.hpp"
 using namespace std;
 
 //您的提交打败了 22.40% 的提交!
-class Interval {
-    public:
-    int start, end;
-    Interval(int start, int end) {
-       this->start = start;
-       this->end = end;
-    }
-};
 
 bool com(const Interval& i1,const Interval& i2){
     return i1.start < i2.start;
