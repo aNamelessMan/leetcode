@@ -1,16 +1,21 @@
 #include<bits/stdc++.h>
 using namespace std;
-
+/*
+给出一个整数数组，所有的元素都在 [−10,10][-10, 10][−10,10] 之间。
+你有三次机会将数组中的一个数替换成任意数。
+请求出可能的最长相等子段数列的长度。
+*/
 int threeChances(vector<int> &nums) {
     int res = INT_MIN;
     int n = nums.size();
     if(n <= 4)return n;
-    
-    //int dp[n];
-    vector<int> dp(n, 0);
+    //dp[i]表示从当前值开始有几个与nums[i]相等的值(至少为1)
+    //暴力解法会超时
+    int dp[n];
+    //vector<int> dp(n, 0);
     dp[0] = 0;
     int dpt = 0;
-    while(nums[dpt] == nums[0]){
+    while(dpt < n && nums[dpt] == nums[0]){//每次[x]下标操作符中是变量时，都要判断(思考)是不是会越界
         dp[0]++;
         dpt++;
     }
@@ -40,7 +45,7 @@ int threeChances(vector<int> &nums) {
             no++;
         }
         
-        if(j < n && nums[j] == t)no += dp[j];
+        if(j < n && nums[j] == t)no += dp[j];//每次[x]下标操作符中是变量时，都要判断(思考)是不是会越界
         
         res = max(res, no);
     }
