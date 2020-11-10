@@ -18,12 +18,10 @@ void nextPermutation(vector<int>& nums) {
     //从倒数第二位开始寻找后面是否有更大值，找到就交换并return，因此当前i之后的值都是降序排列
     for(i = nums.size() - 2; i > -1; i--){
         if(nums[i] < nums[i + 1]){
-            for(int j = nums.size() - 1; j > i; j--){
+            for(int j = nums.size() - 1; j > i; j--){//找到一个在i之后最小的但是大于nums[i]的值
                 if(nums[j] > nums[i]){
-                    int tmp = nums[j];
-                    nums[j] = nums[i];
-                    nums[i] = tmp;
-                    sort(nums.begin() + i + 1, nums.end());
+                    swap(nums[i], nums[j]);
+                    sort(nums.begin() + i + 1, nums.end());//交换后把i之后的数升序排列，保证最小
                     return;
                 }
             }
