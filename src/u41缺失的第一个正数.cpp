@@ -9,7 +9,8 @@ using namespace std;
 int firstMissingPositive(vector<int>& nums) {
     int n = nums.size();
     for(int i = 0; i < n; i++){
-        while(nums[i] > 0 && nums[i] <= n && nums[nums[i] - 1] != nums[i])//只处理1到n 并 防止死循环
+        while(nums[i] > 0 && nums[i] <= n && nums[nums[i] - 1] != nums[i])//只处理1到n 并 防止死循环    终止条件是确保下标为nums[nums[i] - 1]里面存的是nums[i]
+                                                                          //当遍历到nums[i] - 1时里面存的已经是 nums[i]就会直接跳过
             swap(nums[i], nums[nums[i] - 1]);//把nums[i]放到正确的地方
     }
     for(int i = 0; i < n; i++){
