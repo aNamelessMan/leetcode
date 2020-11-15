@@ -8,7 +8,7 @@ bool wrongcanDistribute(vector<int>& nums, vector<int>& quantity) {
     int m = 0;//最多相同数字的一组有多少个
     for(int i = 0; i < n;){
         int cnt = 0, t = nums[i];
-        while(i + cnt < n && nums[i + cnt] == t){
+        while(i + cnt < n && nums[i + cnt] == t){//本地编译器不会检查数组越界，但是LeetCode上会。如果本地通过但是线上运行报错，很可能是这个原因
             cnt++;
         }
         m = max(m, cnt);
