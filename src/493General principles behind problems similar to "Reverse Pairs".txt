@@ -1,0 +1,144 @@
+对 https://leetcode.com/problems/reverse-pairs/discuss/97268/general-principles-behind-problems-similar-to-reverse-pairs 的翻译
+标题：在类似于“翻转对”的问题后的普遍原理
+    这里已经有很多解法了（基于BST二叉搜索树、基于BIT/Binary Indexed Tree树状数组、基于归并排序）。
+我想关注这些解法背后的一般性原理和它在一些相似问题上的可能应用
+    根本想法很简单：分割数组然后解决子问题。
+    分割一个数组很自然的让我们想起子数组，为了便于后续的讨论，假定输入是输入数组是nums，总共有n个元素
+nums[i, j]指下标从i到j（包含i、j）的子数组，T（i，j）指在nums[i, j]上的子问题（比如， 对于翻转对
+，T（i， j）代表nums[i, j]的主要翻转对总数）。
+    有了以上定义，原问题可以直接定义为T（0， n - 1）。现在关键问题是如何根据子问题构建原问题的解。这
+本质上等同于为T（i， j）构建递推关系。只要我们能从T（i， j）的子问题找到他的解，那就一定可以找到更大
+数组的解直到扩展到整个数组。
+    虽然可能有很多方法建立T（i， j）的递推关系，这里我只介绍下面两个常见做法。
+    1.T(i, j) = T(i, j - 1) + C，也就是说，元素会被按顺序处理，C代表处理nums[i, j]的最后一个元素
+      的子问题，我们称之为顺序递推关系。
+    2.T(i, j) = T(i, m) + T(m + 1, j) + C，m = (i+j)/2，也就是说，nums[i, j]会被进一步分割成
+      两部分并且C表示组合这两部分的子问题，我们称之为分治递推关系。
+    对于任一情况，子问题C的性质取决于正在考虑的问题，并进一步决定原问题的时间复杂度，因此为了更好的时间
+表现，找到处理子问题的高效算法是至关重要的。还要注意子问题重叠的可能性，在这种情况下，最好采用动态规划
+（DP）方法。
+    接下来，我会应用这两种递推关系到这个问题“翻转对”并且列举一些解法供你参考。
+
+I -- Sequential recurrence relation 顺序递推关系
+    对于顺序递推关系，我们设置i为0，也就是说，子数组总是从头开始。所以我们得到：
+                    T(0, j) = T(0, j - 1) + C
+    因此子问题C现在就变成了“找出 第一个元素在nums[0, j - 1] 第二个元素是nums[j] 的重要翻转对数目”
+    注意到p-q对是重要翻转对必须要满足下面两个条件：
+    1.p < q:第一个元素必须在第二个元素之前；
+    2.nums[p] > 2 * nums[q]：第一个元素必须大于第二个元素的两倍。
+    对于子问题C，第一个条件是自动满足的（显然j永远大于0到j-1中的任意数），因此我们只需考虑第二个条件，
+等于遍历子数组nums[0, j - 1]找到所有大于两倍nums[j]的元素。
+    直接的搜索是子数组的线性扫描，运行复杂度是O(j)，根据顺序递推关系，最终会导致O(n^2)的解法。
+    为了改进搜索效率，一个关键是观察到子数组中元素的顺序并不重要，既然我们只对重要翻转对的总数感兴趣，
+这暗示了我们可以将这些元素排序然后二分查找而不是简单地线性扫描。
+    如果搜索空间（由将对其进行搜索的元素组成）是“静态的”（每次运行时都一样），把这些元素放进一个数组来做
+二分搜索对我们来说会是完美的。然而，这里并不是这种情况。在第j个元素被处理完后，我们需要将它加入到搜索空间
+来让它对后续的元素可搜索，这会导致随着越来越多的元素被处理完搜索空间会扩张。
+    因此，我们希望在搜索和插入操作之间取得平衡。这就是像二叉搜索树（BST）或二叉索引树（BIT）这样的数据
+结构占上风的地方，它们对这两种操作都提供了相对快速的性能。
+
+1. BST-based solution
+    我们定义如下的节点，val是节点值，cnt是以当前节点为根节点的子树中大于等于val的元素总数：
+    class Node {
+        int val, cnt;
+        Node left, right;
+            
+        Node(int val) {
+            this.val = val;
+            this.cnt = 1;
+        }
+    }
+    搜索和插入操作可以如下定义：
+    private int search(Node root, long val) {
+        if (root == null) {
+            return 0;
+        } else if (val == root.val) {
+            return root.cnt;
+        } else if (val < root.val) {
+            return root.cnt + search(root.left, val);
+        } else {
+            return search(root.right, val);
+        }
+    }
+
+    private Node insert(Node root, int val) {
+        if (root == null) {
+            root = new Node(val);
+        } else if (val == root.val) {
+            root.cnt++;
+        } else if (val < root.val) {
+            root.left = insert(root.left, val);
+        } else {
+            root.cnt++;
+            root.right = insert(root.right, val);
+        }
+        
+        return root;
+    }
+    最后主程序，我们会搜索不小于两倍于当前元素加一的元素（转换为long类型防止溢出），同时将该元素自身插
+入BST。
+    注意：这里自制的BST不是自平衡的并且时间复杂度可能会是O(n^2)（事实上你复制粘贴这里的解法会TLE）。
+为了保证O(nlogn)的表现，使用一个自平衡BST（例如：红黑树，AVL树等等）。
+    public int reversePairs(int[] nums) {
+        int res = 0;
+        Node root = null;
+            
+        for (int ele : nums) {
+            res += search(root, 2L * ele + 1);
+            root = insert(root, ele);
+        }
+        
+        return res;
+    }
+2. BIT-based solution
+    对于BIT，搜索和插入操作是：
+    private int search(int[] bit, int i) {
+        int sum = 0;
+        
+        while (i < bit.length) {
+            sum += bit[i];
+            i += i & -i;
+        }
+
+        return sum;
+    }
+
+    private void insert(int[] bit, int i) {
+        while (i > 0) {
+            bit[i] += 1;
+            i -= i & -i;
+        }
+    }
+    在主程序中，我们再次搜索不小于两倍于当前元素加一的元素（转换为long类型防止溢出），同时将该元素自
+身插入BIT。对于每个元素，“index”函数会反应会它在BIT中的索引。不像基于BST的解法，这里保证复杂度
+O(nlogn)。
+    public int reversePairs(int[] nums) {
+        int res = 0;
+        int[] copy = Arrays.copyOf(nums, nums.length);
+        int[] bit = new int[copy.length + 1];
+        
+        Arrays.sort(copy);
+        
+        for (int ele : nums) {
+            res += search(bit, index(copy, 2L * ele + 1));
+            insert(bit, index(copy, ele));
+        }
+        
+        return res;
+    }
+
+    private int index(int[] arr, long val) {
+        int l = 0, r = arr.length - 1, m = 0;
+            
+        while (l <= r) {
+            m = l + ((r - l) >> 1);
+                
+            if (arr[m] >= val) {
+                r = m - 1;
+            } else {
+                l = m + 1;
+            }
+        }
+        
+        return l + 1;
+    }
