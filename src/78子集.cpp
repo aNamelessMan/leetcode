@@ -1,4 +1,5 @@
 #include<bits/stdc++.h>
+#include "vecOps.hpp"
 using namespace std;
 // 执行用时：0 ms, 在所有 C++ 提交中击败了100.00% 的用户
 // 内存消耗：7.1 MB, 在所有 C++ 提交中击败了24.92% 的用户
@@ -22,6 +23,6 @@ vector<vector<int>> subsets(vector<int>& nums) {
 
 int main(){
     vector<int> nums({1,2,3});
-    subsets(nums);
-    cout << 1 << endl;
+    vector<vector<int>> res = subsets(nums);
+    printVecOfVec(res);
 }
