@@ -11,8 +11,6 @@ int ladderLength(string beginWord, string endWord, vector<string>& wordList) {
     vector<bool> path(wordList.size(), false);
     unordered_map<string, int>bfs;//用来记录每个节点所在层数
     bfs[beginWord] = 1;
-    vector<string> p;
-    p.push_back(beginWord);
 
     queue<string> q;
     q.push(beginWord);
