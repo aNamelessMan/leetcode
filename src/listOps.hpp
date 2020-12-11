@@ -37,8 +37,11 @@ ListNode* constructList(std::vector<int> &vi){
 }
 
 void printList(ListNode *r){
+    if(!r)return;
+    std::cout << r->val;
+    r = r->next;
     while(r){
-        std::cout << r->val << ",";
+        std::cout << " -> " << r->val;
         r = r->next;
     }
     std::cout << std::endl;
