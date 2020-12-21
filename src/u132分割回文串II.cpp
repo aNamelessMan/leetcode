@@ -7,8 +7,6 @@ int minCut(string s) {
     if (s.empty()) return 0;
     int n = s.size();
 //p[i][j] 表示区间 [i, j] 内的子串是否为回文串，其状态转移方程为 p[i][j] = (s[i] == s[j]) && p[i+1][j-1]
-//这里的i，j和下面的i，j是颠倒过来的
-//所以这里的i是从大
     vector<vector<bool>> p(n, vector<bool>(n));
     vector<int> dp(n);
     for (int i = 0; i < n; ++i) {//每新增一个字符，看它是否能和前面的字符构成回文串，能则更新dp
