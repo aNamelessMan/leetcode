@@ -20,6 +20,22 @@ int findMin(vector<int>& nums) {
     return nums[h];
 }
 
+//别人的解法
+int otherfindMin(vector<int>& nums) {
+    int n = nums.size();
+    int l = 0, h = n - 1;
+
+    while(l < h){
+        int mid = l + (h - l) / 2;
+        if(nums[mid] > nums[h]){
+            l = mid + 1;
+        }else{
+            h = mid;
+        }
+    }
+    return nums[h];
+}
+
 int main(){
     cout << 1 << endl;
 }
