@@ -1,6 +1,9 @@
 #include <bits/stdc++.h>
 using namespace std;
+
+//题目链接如下
 //https://www.nowcoder.com/question/next?pid=1725829&qid=44802&tid=40376150
+
 void process(string s){
     int n = s.size(), i = 0;
     while(i < n){
