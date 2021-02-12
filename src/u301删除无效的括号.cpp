@@ -16,7 +16,7 @@ vector<string> removeInvalidParentheses(string s) {
     vector<string> res;
     unordered_set<string> visited({s});
     queue<string> q({s});//这里不能写成q{s}会编译错误   
-    //因为初始化容器 需要用的是一个列表的的值例如{s, ..., }   上面同理，也许有些容器可以不加小括号，但为了保险起见，以后初始化一律写成({...})的形式
+    //根本原因是因为容器适配器没有定义参数为初始化列表的构造函数，可以查cppreference    其余容器应该都定义了
     bool found = false;
     while (!q.empty()) {
         string t = q.front(); q.pop();
