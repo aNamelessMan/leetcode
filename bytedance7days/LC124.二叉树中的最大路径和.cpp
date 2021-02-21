@@ -1,5 +1,5 @@
 #include<bits/stdc++.h>
-#include "TreeNode.hpp"
+#include "../dataStruc/TreeNode.hpp"
 using namespace std;
 
 // 执行用时：72 ms, 在所有 C++ 提交中击败了5.93% 的用户
