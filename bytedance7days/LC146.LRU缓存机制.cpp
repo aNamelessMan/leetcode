@@ -7,8 +7,9 @@ using namespace std;
 class LRUCache {
 private:
     int cap;
-    list<pair<int,int>> l;
+    list<pair<int,int>> l;//因为删除时需要获取l末尾元素的key来删除map中的值，因此不能只存value，而是存k-v对
     unordered_map<int, list<pair<int,int>>::iterator> m;//!!!!!!!!!!!!  关键是想到map中保存的是key对应的list中的位置，这样才能实现O(1)复杂度的操作
+public:
     LRUCache(int capacity) {
         cap = capacity;
     }
@@ -44,5 +45,14 @@ private:
 };
 
 int main(){
-    cout << 1 << endl;
+    LRUCache lru =  LRUCache(2);
+    lru.put(1, 0);
+    lru.put(2, 2);
+    cout << lru.get(1) << endl;
+    lru.put(3, 3);
+    cout << lru.get(2) << endl;
+    lru.put(4, 4);
+    cout << lru.get(1) << endl;
+    cout << lru.get(3) << endl;
+    cout << lru.get(4) << endl;
 }
