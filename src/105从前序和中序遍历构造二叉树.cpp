@@ -25,8 +25,8 @@ TreeNode* buildTree(vector<int>& preorder, vector<int>& inorder, int pl, int ph,
     for(; i <= ih; i++){
         if(inorder[i] == root)break;
     }
-    int lil = il, lih = i - 1, ril = i + 1, rih = i == ih?ih - 1:ih;//为了防止i == ih时将节点i重复计算
-    int lpl = pl + 1, lph = lpl + i - 1 - il, rpl = lph + 1, rph = rpl + rih - ril;//这一行只需要知道序列起点，再确保与上面的长度即可，也就是用起点加上上面的差
+    int lil = il, lih = i - 1, ril = i + 1, rih = ih;
+    int lpl = pl + 1, lph = lpl + lih - lil, rpl = lph + 1, rph = rpl + rih - ril;//这一行只需要知道序列起点，再确保与上面的长度即可，也就是用起点加上上面的差
     res->left = buildTree(preorder, inorder, lpl, lph, lil, lih);
     res->right = buildTree(preorder, inorder, rpl, rph, ril, rih);
     return res;
