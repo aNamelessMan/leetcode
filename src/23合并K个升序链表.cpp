@@ -1,6 +1,40 @@
 #include<bits/stdc++.h>
 #include "ListNode.hpp"
 using namespace std;
+
+// 执行用时：24 ms, 在所有 C++ 提交中击败了94.50% 的用户
+// 内存消耗：13 MB, 在所有 C++ 提交中击败了79.91% 的用户
+//2021.2.25
+//使用优先队列  复杂度为O(nlogk)n是总元素个数，k是链表个数，也就是优先队列大小
+struct node{//包装一下ListNode这样可以在优先队列里比较节点大小
+    node(ListNode* ln):l(ln){
+
+    }
+    ListNode* l;
+    bool operator < (const node&rhs) const{//注意此处必须有const限定，不然无法被优先队列调用
+        return l->val > rhs.l->val;//C++默认优先队列是大顶堆，此处修改为小顶堆
+    }
+};
+
+ListNode* mergeKLists(vector<ListNode*>& lists) {
+    priority_queue<node> q;
+    for(auto l:lists){
+        if(l)q.push(node(l));
+    }
+
+    ListNode res, *iter = &res;//创建一个虚节点，也就是val无意义的节点，最终返回res.next，使用这种手法可以不用特殊处理首节点
+    while(!q.empty()){
+        auto t = q.top().l;
+        q.pop();
+        iter->next = t;
+        iter = iter->next;
+        if(iter->next){
+            q.push(iter->next);
+        }
+    }
+    return res.next;
+}
+
 // 执行用时：1760 ms, 在所有 C++ 提交中击败了5.00% 的用户
 // 内存消耗：13.5 MB, 在所有 C++ 提交中击败了21.86% 的用户
 ListNode* BFmergeKLists(vector<ListNode*>& lists) {
@@ -46,7 +80,7 @@ ListNode* BFmergeKLists(vector<ListNode*>& lists) {
 // 内存消耗：13.6 MB, 在所有 C++ 提交中击败了21.59% 的用户
 //还是很慢
 //应该使用优先队列，懒得改了
-ListNode* mergeKLists(vector<ListNode*>& lists) {
+ListNode* alsoBFmergeKLists(vector<ListNode*>& lists) {
     //最简单的改进就是增加一个记录最小指针的指针
     //注意vector里存的是头指针，想要修改头指针需要一个二级指针
     ListNode **minp = nullptr;
