@@ -5,6 +5,7 @@ using namespace std;
 // 执行用时：12 ms, 在所有 C++ 提交中击败了12.82% 的用户
 // 内存消耗：13.2 MB, 在所有 C++ 提交中击败了5.00% 的用户
 //递归法，迭代法以后再说
+//中序遍历后比较
 void transfer(TreeNode *root, vector<int> &tree, int c, vector<int> &ceng){
     if(!root)return;
     transfer(root->left, tree, ++c, ceng);
