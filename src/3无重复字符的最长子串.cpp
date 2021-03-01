@@ -1,9 +1,33 @@
 #include<bits/stdc++.h>
 using namespace std;
 
+// 执行用时：32 ms, 在所有 C++ 提交中击败了56.47% 的用户
+// 内存消耗：10.6 MB, 在所有 C++ 提交中击败了37.25% 的用户
+//2021.3.1二刷自己的写法，感觉更好
+int lengthOfLongestSubstring(string s) {
+    int n = s.size(), res = 0, l = 0, r = 0;//区间左闭右开
+    unordered_set<char> cs;
+    while(r < n){
+        while(!cs.count(s[r]) && r < n){//没遇到重复则右边界一直扩张
+            cs.insert(s[r]);
+            r++;
+        }
+        res = max(res, r - l);//只有在扩张后才可能更新
+        while(s[l] != s[r]){//左边界一直收缩直到去除重复的字符
+            cs.erase(s[l]);
+            l++;
+        }
+        cs.erase(s[l]);
+        l++;
+        cs.insert(s[r]);
+        r++;
+    }
+    return res;
+}
+
 // 执行用时：36 ms, 在所有 C++ 提交中击败了63.12% 的用户
 // 内存消耗：10.5 MB, 在所有 C++ 提交中击败了42.05% 的用户
-int lengthOfLongestSubstring(string s) {
+int firstlengthOfLongestSubstring(string s) {
     int n = s.size(), res = 0, l = 0, r = 0;//双指针，l是第一个属于窗口的字符，r是第一个不属于窗口的字符，因此窗口长度就是r - l
     unordered_set<char> window;//在窗口内的字符集合，一定是无重复的
     while(r < n){
