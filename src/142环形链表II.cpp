@@ -1,6 +1,26 @@
 #include<bits/stdc++.h>
 #include "ListNode.hpp"
 using namespace std;
+
+// 执行用时：12 ms, 在所有 C++ 提交中击败了46.19% 的用户
+// 内存消耗：7.5 MB, 在所有 C++ 提交中击败了73.34% 的用户
+//2021.3.1二刷
+ListNode *detectCycle(ListNode *head) {
+    ListNode* fast = head, *slow = head;
+    while(fast && fast->next){
+        fast = fast->next->next;
+        slow = slow->next;
+        if(fast == slow)break;
+    }
+    if(!fast || !fast->next)return nullptr;
+    slow = head;
+    while(slow != fast){
+        slow = slow->next;
+        fast = fast->next;
+    }
+    return slow;
+}
+
 // 执行用时：12 ms, 在所有 C++ 提交中击败了67.95% 的用户
 // 内存消耗：7.7 MB, 在所有 C++ 提交中击败了24.53% 的用户
 ListNode *detectCycle(ListNode *head) {
