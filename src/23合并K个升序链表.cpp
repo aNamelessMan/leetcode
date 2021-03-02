@@ -2,6 +2,39 @@
 #include "ListNode.hpp"
 using namespace std;
 
+// 执行用时：28 ms, 在所有 C++ 提交中击败了84.03% 的用户
+// 内存消耗：12.7 MB, 在所有 C++ 提交中击败了90.74% 的用户
+//归并  借用21题代码
+ListNode* mergeTwoLists(ListNode* l1, ListNode* l2) {
+    ListNode head, *iter = &head;
+    while(l1 || l2){
+        if(!l2 || (l1 && l1->val < l2->val)){
+            iter->next = l1;
+            l1 = l1->next;
+        }else{
+            iter->next = l2;
+            l2 = l2->next;
+        }
+        iter = iter->next;
+    }
+    iter->next = nullptr;
+    return head.next;
+}
+
+ListNode* mergeKLists(vector<ListNode*>& lists, int s, int e) {
+    if(s == e)return lists[s];
+    if(s == e - 1)return mergeTwoLists(lists[s], lists[e]);
+    else{
+        return mergeTwoLists(mergeKLists(lists, s, (s + e) / 2), mergeKLists(lists, (s + e) / 2 + 1, e));
+    }
+}
+
+ListNode* mergeKLists(vector<ListNode*>& lists) {
+    int n = lists.size();
+    if(n == 0)return nullptr;
+    return mergeKLists(lists, 0, n - 1);
+}
+
 // 执行用时：24 ms, 在所有 C++ 提交中击败了94.50% 的用户
 // 内存消耗：13 MB, 在所有 C++ 提交中击败了79.91% 的用户
 //2021.2.25
@@ -16,7 +49,7 @@ struct node{//包装一下ListNode这样可以在优先队列里比较节点大�
     }
 };
 
-ListNode* mergeKLists(vector<ListNode*>& lists) {
+ListNode* fmergeKLists(vector<ListNode*>& lists) {
     priority_queue<node> q;
     for(auto l:lists){
         if(l)q.push(node(l));
