@@ -1,6 +1,28 @@
 #include<bits/stdc++.h>
 using namespace std;
 
+// 执行用时：0 ms, 在所有 C++ 提交中击败了100.00% 的用户
+// 内存消耗：6.9 MB, 在所有 C++ 提交中击败了81.03% 的用户
+string myremoveKdigits(string num, int k) {
+    //用光删除名额k之前确保递增
+    int n = num.size(), keep = n - k;
+    string res;
+    for(char c:num){
+        while(k && !res.empty() && res.back() > c){
+            res.pop_back();
+            k--;
+        }
+        res += c;
+    }
+    res = res.substr(0, keep);
+    int i = 0;
+    while(i < n - k && res[i] == '0'){
+        i++;
+    }
+    res = res.substr(i);
+    return res.empty()?"0":res;
+}
+
 // 执行用时：4 ms, 在所有 C++ 提交中击败了91.37% 的用户
 // 内存消耗：7.2 MB, 在所有 C++ 提交中击败了42.84% 的用户
 //今天做周赛才知道这道题应该用单调栈来做
@@ -54,5 +76,5 @@ string BFremoveKdigits(string num, int k) {
 }
 
 int main(){
-    cout << removeKdigits("43212", 1) << endl;
+    cout << myremoveKdigits("1173", 2) << endl;
 }
