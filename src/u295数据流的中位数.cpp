@@ -1,6 +1,40 @@
 #include<bits/stdc++.h>
 using namespace std;
 
+// 执行用时：140 ms, 在所有 C++ 提交中击败了63.50% 的用户
+// 内存消耗：46.3 MB, 在所有 C++ 提交中击败了11.09% 的用户
+class MedianFinder {
+private:
+    priority_queue<double> bq;//存放偏小的那一半数据
+    priority_queue<double> sq;//存放偏大的那一半数据
+public:
+    /** initialize your data structure here. */
+    MedianFinder() {
+
+    }
+    
+    void addNum(int num) {
+        bq.push(num);
+        if(bq.size() > sq.size() + 1){
+            int t = bq.top();
+            bq.pop();
+            sq.push(-t);
+        }
+        if(!bq.empty() && !sq.empty() && bq.top() > -sq.top()){//防止较大的数停留在小一半的堆中
+            int b = bq.top(), s = sq.top();
+            bq.pop();
+            sq.pop();
+            bq.push(-s);
+            sq.push(-b);
+        }
+    }
+    
+    double findMedian() {
+        if(bq.size() == sq.size())return double(bq.top() - sq.top()) / 2;
+        else return bq.top();
+    }
+};
+
 // 执行用时：136 ms, 在所有 C++ 提交中击败了99.29% 的用户
 // 内存消耗：41.2 MB, 在所有 C++ 提交中击败了48.37% 的用户
 class MedianFinder {
