@@ -3,6 +3,31 @@
 using namespace std;
 
 // 执行用时：0 ms, 在所有 C++ 提交中击败了100.00% 的用户
+// 内存消耗：7.2 MB, 在所有 C++ 提交中击败了43.57% 的用户
+//2021.3.4二刷  严格的一次遍历
+ListNode* reverseBetween(ListNode* head, int left, int right) {
+    ListNode h, *hp = &h;
+    h.next = head;
+    int i = 1;
+    while(i < left){
+        hp = hp->next;
+        i++;
+    }
+    //此时hp指向翻转链表的前一个节点
+    ListNode* reversed = nullptr, *iter = hp->next, *next, *prev = hp->next;//prev指向要翻转的第一个节点，也就是翻转后的最后一个的节点
+    while(i < right + 1){
+        next = iter->next;
+        iter->next = reversed;
+        reversed = iter;
+        iter = next;
+        i++;
+    }
+    hp->next = reversed;
+    prev->next = iter;
+    return h.next;
+}
+
+// 执行用时：0 ms, 在所有 C++ 提交中击败了100.00% 的用户
 // 内存消耗：7 MB, 在所有 C++ 提交中击败了5.03% 的用户
 ListNode* reverseBetween(ListNode* head, int m, int n) {
     int cnt = 1;
