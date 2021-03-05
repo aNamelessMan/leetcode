@@ -2,30 +2,28 @@
 #include <queue>
 
 void merge(std::vector<int> &A, int l, int mid, int h){
-    std::queue<int> q1;
-    for(int i = l; i <= mid; i++){
-        q1.push(A[i]);
-    }
-    std::queue<int> q2;
-    for(int i = mid + 1; i <= h; i++){
-        q2.push(A[i]);
-    }
-    for(int i = l; i <= h; i++){
-        if(q1.empty()){
-            A[i] = q2.front();
-            q2.pop();
-        }else if (q2.empty()){
-            A[i] = q1.front();
-            q1.pop();
+    int p1 = l, p2 = mid + 1;//左半段
+    std::queue<int> q;
+    while(p1 != mid + 1 || p2 != h + 1){
+        if(p1 == mid + 1){
+            q.push(A[p2]);
+            p2++;
+        }else if(p2 == h + 1){
+            q.push(A[p1]);
+            p1++;
         }else{
-            if(q1.front() < q2.front()){
-                A[i] = q1.front();
-                q1.pop();
+            if(A[p1] < A[p2]){
+                q.push(A[p1]);
+                p1++;
             }else{
-                A[i] = q2.front();
-                q2.pop();
+                q.push(A[p2]);
+                p2++;
             }
         }
+    }
+    for(int i = l; i <= h; i++){
+        A[i] = q.front();
+        q.pop();
     }
 }
 
