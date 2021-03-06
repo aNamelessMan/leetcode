@@ -2,6 +2,7 @@
 using namespace std;
 // 执行用时：12 ms, 在所有 C++ 提交中击败了46.08% 的用户
 // 内存消耗：13.2 MB, 在所有 C++ 提交中击败了6.85% 的用户
+//../剑指offer/42   解法好懂
 int maxSubArray(vector<int>& nums) {
     int thissum = 0, maxsum = 0, m = INT_MIN;
     for(int i = 0; i < nums.size(); i++){
