@@ -1,7 +1,29 @@
 #include<bits/stdc++.h>
 using namespace std;
 
-//用双指针或者栈更快，日后再看
+// 执行用时：12 ms, 在所有 C++ 提交中击败了52.09% 的用户
+// 内存消耗：14 MB, 在所有 C++ 提交中击败了68.74% 的用户
+//2021.3.9二刷还是不会写...
+/*注意到每个下标可以增加的水量等于  max(0, min(左边最高边, 右边最高边) - 他的长度)
+因此只需要计算出    每个边左边和右边的最长边即可
+*/
+int trap(vector<int>& height) {
+    int n = height.size(), res = 0;
+    if(n <= 2)return res;
+    vector<int> dp(n, 0);
+
+    dp[0] = height[0];
+    for(int i = 1; i < n; i++){
+        dp[i] = max(dp[i - 1], height[i]);
+    }
+
+    dp[n - 1] = height[n - 1];
+    for(int i = n - 2; i >= 1; i--){
+        res += max(min(dp[i - 1], dp[i + 1]) - height[i], 0);
+        dp[i] = max(dp[i + 1], height[i]);
+    }
+    return res;
+}
 
 // 执行用时：12 ms, 在所有 C++ 提交中击败了14.13% 的用户
 // 内存消耗：14.1 MB, 在所有 C++ 提交中击败了5.02% 的用户

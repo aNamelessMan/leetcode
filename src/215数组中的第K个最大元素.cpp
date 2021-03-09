@@ -4,7 +4,7 @@ using namespace std;
 // 执行用时：4 ms, 在所有 C++ 提交中击败了99.51% 的用户
 // 内存消耗：9.8 MB, 在所有 C++ 提交中击败了69.10% 的用户
 int part(vector<int>& nums, int l, int h){
-    shuffle(nums.begin() + l, nums.begin() + h, std::default_random_engine (2021));//不加这一行会非常慢，复杂度可能退化到O(n^2)，实测会消耗200ms左右
+    shuffle(nums.begin() + l, nums.begin() + h + 1, std::default_random_engine (2021));//不加这一行会非常慢，复杂度可能退化到O(n^2)，实测会消耗200ms左右
     int toset = l;
     for(int i = l; i < h; i++){
         if(nums[i] < nums[h]){          //遍历需要到达两个目标

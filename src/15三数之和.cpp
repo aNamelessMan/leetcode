@@ -1,9 +1,41 @@
 #include<bits/stdc++.h>
 using namespace std;
+
+// 执行用时：72 ms, 在所有 C++ 提交中击败了95.78% 的用户
+// 内存消耗：19.5 MB, 在所有 C++ 提交中击败了71.08% 的用户
+vector<vector<int>> threeSum(vector<int>& nums) {
+    //先排序，固定一个数然后双指针  O(n^2)
+    //去重时不用考虑太多，第一次遇到nums[i]时就已经把所有包含nums[i]的可能解都遍历了
+    int n = nums.size();
+    vector<vector<int>> res;
+    if(n < 3)return res;
+    sort(nums.begin(), nums.end());
+    for(int i = 0; i < n - 2; i++){
+        if(i > 0 && nums[i] == nums[i - 1])continue;//去重
+        int target = -nums[i], l = i + 1, r = n - 1;
+        while(l < r){
+            int s = nums[l] + nums[r];
+            if(s == target){
+                res.push_back({nums[i], nums[l], nums[r]});
+                //去重
+                while(l + 1 < r && nums[l] == nums[l + 1])l++;
+                l++;
+                while(r - 1 > l && nums[r] == nums[r - 1])r--;
+                r--;
+            }else if(s < target){
+                l++;
+            }else{
+                r--;
+            }
+        }
+    }
+    return res;
+}
+
 // 执行用时：104 ms, 在所有 C++ 提交中击败了75.26% 的用户
 // 内存消耗：19.7 MB, 在所有 C++ 提交中击败了43.66% 的用户
 //固定一个数后双指针
-vector<vector<int>> threeSum(vector<int>& nums) {
+vector<vector<int>> fstthreeSum(vector<int>& nums) {
     sort(nums.begin(), nums.end());
     if(nums.empty() || nums[0] > 0 || nums[nums.size() - 1] < 0)return {};
     vector<vector<int>> res;
