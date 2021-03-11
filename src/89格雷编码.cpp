@@ -1,13 +1,32 @@
 #include<bits/stdc++.h>
 using namespace std;
-// 执行用时：24 ms, 在所有 C++ 提交中击败了44.03% 的用户
-// 内存消耗：7.4 MB, 在所有 C++ 提交中击败了5.10% 的用户
+
+// 执行用时：8 ms, 在所有 C++ 提交中击败了63.60% 的用户
+// 内存消耗：11.4 MB, 在所有 C++ 提交中击败了62.31% 的用户
+/* 详见 https://leetcode-cn.com/problems/gray-code/solution/xiang-xi-tong-su-de-si-lu-fen-xi-duo-jie-fa-by--12/
+    动态规划，每次新增时原来的数不用变，可以视为在最高位添0，将原来的数颠倒后在最高位添1可以确保只更改1位
+*/
 vector<int> grayCode(int n) {
+    vector<int> dp{0, 1};
+    n--;
+    while(n){
+        int m = dp.size();
+        for(int i = m - 1; i >= 0; i--){
+            dp.push_back(m + dp[i]);
+        }
+        n--;
+    }
+    return dp;
+}
+
+// 执行用时：472 ms, 在所有 C++ 提交中击败了5.29% 的用户
+// 内存消耗：20.2 MB, 在所有 C++ 提交中击败了6.26% 的用户
+vector<int> BFgrayCode(int n) {
     //开头一定是00...00b
     //保存已用过的每个数
     //从第一位开始尝试对每一位取反，未用过则用，用过尝试下一位
     vector<int> res;
-    set<int> used;
+    unordered_set<int> used;
     used.insert(0);
     res.push_back(0);
 

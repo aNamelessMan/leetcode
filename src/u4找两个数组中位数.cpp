@@ -1,6 +1,38 @@
 #include<bits/stdc++.h>
 using namespace std;
 
+// 执行用时：32 ms, 在所有 C++ 提交中击败了92.99% 的用户
+// 内存消耗：86.8 MB, 在所有 C++ 提交中击败了86.41% 的用户
+//注意 k/2 + k/2 不一定等于 k   k可能为奇数
+//递归的解法比较好理解
+int findkth(vector<int>& A, vector<int>& B, int l1 , int h1, int l2, int h2, int k){//找到两个数组中第k大的数
+    if(A.size() > B.size())return findkth(B, A, l2, h2, l1, h1, k);//统一成A大小小于等于B，这样只有A的大小可能小于k/2
+    //A/B已经排除完毕时
+    if(l1 == int(A.size()))return B[l2 + k - 1];
+    if(l2 == int(B.size()))return A[l1 + k - 1];
+    //basecase
+    if(k == 1)return min(A[l1], B[l2]);
+    //确保不会越界
+    int i = min(h1, l1 + k / 2 - 1), j = l2 + k / 2 - 1;
+
+    if(A[i] > B[j]){//小于等于B[mid]的数最多有 k/2 - 1 + k/2个，因此B[mid]及其左边的数都不会为第k个数，排除了k/2个
+        return findkth(A, B, l1, h1, j + 1, h2, k - k / 2);//注意由于整数取整，排除掉k/2个数后剩余的不是k/2!!!!!!!!!!!!
+    }else{
+        return findkth(A, B, i + 1, h1, l2, h2, k - (i - l1 + 1));
+    }
+}
+
+double findMedianSortedArrays(vector<int>& nums1, vector<int>& nums2) {
+    int m = nums1.size(), n = nums2.size(), s = m + n;
+    if(s % 2){
+        return findkth(nums1, nums2, 0, m - 1, 0, n - 1, s / 2 + 1);
+    }else{
+        int l = findkth(nums1, nums2, 0, m - 1, 0, n - 1, s / 2);
+        int r = findkth(nums1, nums2, 0, m - 1, 0, n - 1, s / 2 + 1);
+        return (l + r) / double(2);//转为浮点数
+    }
+}
+
 class Solution {
 public:
     double errorfindMedianSortedArrays(vector<int>& nums1, vector<int>& nums2) {//不满足复杂度为O(log(m+n))
@@ -71,13 +103,13 @@ public:
         return  (findKth(nums1,0,nums2,0,(m+n+1)/2) + findKth(nums1,0,nums2,0,(m+n+2)/2))/2.0;
     }
     int findKth(vector<int>& nums1,int i,vector<int>& nums2,int j,int k){
-        if(i >= nums1.size())return nums2[j + k - 1];
-        if(j >= nums2.size())return nums1[i + k - 1];
+        if(i >= int(nums1.size()))return nums2[j + k - 1];
+        if(j >= int(nums2.size()))return nums1[i + k - 1];
         //basecase不要忘！！！
         if(k == 1)return    min(nums1[i],nums2[j]);
 
-        int mindval1 = ((i + k/2 -1) >= nums1.size())?INT_MAX:nums1[i + k/2 -1];
-        int mindval2 = ((j + k/2 -1) >= nums2.size())?INT_MAX:nums2[j + k/2 -1];
+        int mindval1 = ((i + k/2 -1) >= int(nums1.size()))?INT_MAX:nums1[i + k/2 -1];
+        int mindval2 = ((j + k/2 -1) >= int(nums2.size()))?INT_MAX:nums2[j + k/2 -1];
         if(mindval1 < mindval2)//如果相等其实随便排除哪一组都行
             return  findKth(nums1,i+k/2,nums2,j,k - k/2);//注意此处k - k/2不能替换为k/2因为在k为奇数时并不相等
         else
@@ -86,10 +118,8 @@ public:
 
 };
 
-    int main(){
-        vector<int> sz1 = {1,2};
-        vector<int> sz2 = {3,4};
-        Solution solution;
-        double res = solution.findMedianSortedArrays(sz1,sz2);
-        cout << res << endl;
-    }
+int main(){
+    vector<int> sz1 = {2, 2, 4, 4};
+    vector<int> sz2 = {2, 2, 4, 4};
+    cout << findMedianSortedArrays(sz1,sz2) << endl;
+}
