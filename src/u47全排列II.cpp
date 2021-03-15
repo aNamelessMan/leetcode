@@ -1,7 +1,35 @@
 #include<bits/stdc++.h>
 using namespace std;
 
-//复杂的方法之后再看吧..
+// 执行用时：12 ms, 在所有 C++ 提交中击败了52.41% 的用户
+// 内存消耗：8.8 MB, 在所有 C++ 提交中击败了53.75% 的用户
+void dfs(int s, int n, vector<vector<int>> &res, vector<int> &t, vector<int>& nums, vector<bool> checkin){
+    if(s == n){
+        res.push_back(t);
+        return;
+    }
+    for(int i = 0; i < n; i++){
+        if(i > 0 && nums[i - 1] == nums[i] && !checkin[i - 1])continue;//加上这一行去重即可
+        if(checkin[i])continue;
+        t.push_back(nums[i]);
+        checkin[i] = true;
+        s++;
+        dfs(s, n, res, t, nums, checkin);
+        s--;
+        checkin[i] = false;
+        t.pop_back();
+    }
+}
+
+vector<vector<int>> permuteUnique(vector<int>& nums) {
+    int n = nums.size();
+    vector<vector<int>> res;
+    vector<int> t;
+    vector<bool> checkin(n, false);
+    sort(nums.begin(), nums.end());
+    dfs(0, n, res, t, nums, checkin);
+    return res;
+}
 
 // 执行用时：464 ms, 在所有 C++ 提交中击败了5.05% 的用户
 // 内存消耗：9.6 MB, 在所有 C++ 提交中击败了12.75% 的用户

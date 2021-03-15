@@ -1,8 +1,30 @@
 #include<bits/stdc++.h>
 using namespace std;
+
+// 执行用时：84 ms, 在所有 C++ 提交中击败了73.53% 的用户
+// 内存消耗：14.5 MB, 在所有 C++ 提交中击败了15.32% 的用户
+//递归的写法
+int dfs(vector<int> &dp, int amount, vector<int> &coins){
+    if(amount < 0)return INT_MAX;
+    if(amount == 0)return 0;
+    if(dp[amount - 1] != -1)return dp[amount - 1];
+    int res = INT_MAX;
+    for(int c:coins){
+        res = min(res, dfs(dp, amount - c, coins));
+    }
+    dp[amount - 1] = (res == INT_MAX?INT_MAX:res + 1);
+    return dp[amount - 1];
+}
+
+int coinChange(vector<int>& coins, int amount) {
+    vector<int> dp(amount, -1);
+    int res = dfs(dp , amount, coins);
+    return res == INT_MAX?-1:res;
+}
+
 // 执行用时：188 ms, 在所有 C++ 提交中击败了10.47% 的用户
 // 内存消耗：14.1 MB, 在所有 C++ 提交中击败了19.32% 的用户
-int coinChange(vector<int>& coins, int amount) {
+int dpcoinChange(vector<int>& coins, int amount) {
     //dp[i]表示凑成金额i的最少硬币数
     vector<int> dp(amount + 1, -1);
     dp[0] = 0;

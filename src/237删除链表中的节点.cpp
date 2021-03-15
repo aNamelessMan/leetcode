@@ -2,6 +2,18 @@
 #include "ListNode.hpp"
 using namespace std;
 
+// 执行用时：4 ms, 在所有 C++ 提交中击败了99.85% 的用户
+// 内存消耗：7.5 MB, 在所有 C++ 提交中击败了81.43% 的用户
+//2021.3.15
+void deleteNode(ListNode* node) {
+    while(node->next->next){
+        node->val = node->next->val;
+        node = node->next;
+    }
+    node->val = node->next->val;
+    node->next = nullptr;
+}
+
 // 执行用时：8 ms, 在所有 C++ 提交中击败了99.61% 的用户
 // 内存消耗：8.1 MB, 在所有 C++ 提交中击败了19.76% 的用户
 //这题翻译的有问题，直接看英文

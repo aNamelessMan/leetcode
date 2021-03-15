@@ -38,6 +38,7 @@ public:
     }
     T* operator->(){
         return obj;
+        //通用写法  return &(operator*());
     }
 
 };

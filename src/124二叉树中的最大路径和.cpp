@@ -2,6 +2,26 @@
 #include "TreeNode.hpp"
 using namespace std;
 
+// 执行用时：24 ms, 在所有 C++ 提交中击败了94.51% 的用户
+// 内存消耗：27.8 MB, 在所有 C++ 提交中击败了36.11% 的用户
+//2021.3.13日自己的解法，比之前简洁
+int dfs(TreeNode* root, int &res){//返回由这个节点出发能到达的最大值    注意在遍历过程中更新res
+    if(!root->left && !root->right){
+        res = max(res, root->val);
+        return root->val;
+    }
+    int l = root->left?max(dfs(root->left, res), 0):0, r = root->right?max(dfs(root->right, res), 0):0;
+    res = max({res, root->val + l + r});
+    return root->val + max(l, r);
+}
+
+int maxPathSum(TreeNode* root) {
+    if(!root)return 0;
+    int res = INT_MIN;
+    dfs(root, res);
+    return res;
+}
+
 // 执行用时：72 ms, 在所有 C++ 提交中击败了5.93% 的用户
 // 内存消耗：37.9 MB, 在所有 C++ 提交中击败了5.18% 的用户
 //2021.2.21日二刷自己写的解法 复杂度O(n)

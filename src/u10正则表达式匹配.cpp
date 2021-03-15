@@ -20,6 +20,13 @@ using namespace std;
 
 
     bool isMatch(string s, string p) {
+        /*按p的大小分为 0、1、其余 三种情况，
+            1.  p为空必须s也为空
+            2.  p大小为1必须s大小也为1  且相等或为'.'
+            3.  根据p第二个字符是否为'*'分为两种情况    不为'*'必须首字符相等然后递归下个字符
+                                                   (s必须不为空)为'*'首字符必须相同，之后不断取s[1,...]和p[2,...]递归    为真则返回真
+                                                   最后如果都未返回，递归s和p[2,...]
+        */
         if(p.empty()){
             if(s.empty())return true;
             else return false;

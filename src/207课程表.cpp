@@ -1,6 +1,33 @@
 #include<bits/stdc++.h>
 using namespace std;
 
+// 执行用时：28 ms, 在所有 C++ 提交中击败了68.88% 的用户
+// 内存消耗：13.4 MB, 在所有 C++ 提交中击败了32.02% 的用户
+//bfs的解法 也就是拓扑排序，当没有入度为0的课程时，返回是否所有课程已上完  简单快速    
+bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {
+    vector<int> indeg(numCourses);//记录入度
+    unordered_map<int, vector<int>> m;
+    for(auto &p:prerequisites){
+        indeg[p[0]]++;
+        m[p[1]].push_back(p[0]);
+    }
+    int cnt = 0;
+    queue<int> q;
+    for(int i = 0; i < numCourses; i++){
+        if(indeg[i] == 0)q.push(i);
+    }
+    while(!q.empty()){
+        auto t = q.front();
+        q.pop();
+        cnt++;
+        for(int i:m[t]){
+            indeg[i]--;
+            if(indeg[i] == 0)q.push(i);
+        }
+    }
+    return cnt == numCourses;
+}
+
 // set<int> processed;
 // set<int> path;
 // 执行用时：228 ms, 在所有 C++ 提交中击败了5.04% 的用户
