@@ -1,6 +1,54 @@
 #include<bits/stdc++.h>
 using namespace std;
 
+// 执行用时：100 ms, 在所有 C++ 提交中击败了82.44% 的用户
+// 内存消耗：41 MB, 在所有 C++ 提交中击败了21.69% 的用户
+//2021.3.16
+class LRUCache {
+private:
+    int cap;
+    list<pair<int, int>> l;
+    unordered_map<int, list<pair<int, int>>::iterator> m;
+public:
+    LRUCache(int capacity) {
+        cap = capacity;
+    }
+    
+    int get(int key) {
+        auto iter = m.find(key);
+        if(iter != m.end()){
+            l.push_front({key, m[key]->second});
+            l.erase(m[key]);
+            m[key] = l.begin();
+            return l.begin()->second;
+        }else{
+            return -1;
+        }
+    }
+    
+    void put(int key, int value) {
+        auto iter = m.find(key);
+        if(iter != m.end()){
+            l.push_front({key, value});
+            l.erase(m[key]);
+            m[key] = l.begin();
+        }else{
+            if(l.size() < cap){
+                l.push_front({key, value});
+                m[key] = l.begin();
+            }else{
+                auto iter = l.end();
+                iter--;
+                m.erase(m.find(iter->first));
+                l.erase(iter);
+
+                l.push_front({key, value});
+                m[key] = l.begin();
+            }
+        }
+    }
+};
+
 // 执行用时：100 ms, 在所有 C++ 提交中击败了88.02% 的用户
 // 内存消耗：41.2 MB, 在所有 C++ 提交中击败了19.91% 的用户
 //2021.2.23日二刷

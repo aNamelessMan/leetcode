@@ -3,6 +3,44 @@
 #include "listOps.hpp"
 using namespace std;
 
+// 执行用时：20 ms, 在所有 C++ 提交中击败了73.83% 的用户
+// 内存消耗：11.2 MB, 在所有 C++ 提交中击败了66.57% 的用户
+//2021.3.16比较清晰的解法
+ListNode* reverse(ListNode* head){
+    ListNode* reversed = nullptr;
+    while(head){
+        ListNode *next = head->next;
+        head->next = reversed;
+        reversed = head;
+        head = next;
+    }
+    return reversed;
+}
+
+ListNode* reverseKGroup(ListNode* head, int k) {
+    ListNode h, *p = &h;
+    while(head){
+        int c = 1;
+        ListNode* iter = head;
+        while(c < k && iter){
+            iter = iter->next;
+            c++;
+        }
+        ListNode *next = nullptr;
+        if(iter){
+            next = iter->next;
+            iter->next = nullptr;
+            p->next = reverse(head);
+            p = head;
+            head = next;
+        }else{//不足k个则剩余的不作处理，直接接上即可
+            p->next = head;
+            head = nullptr;
+        }
+    }
+    return h.next;
+}
+
 // 执行用时：24 ms, 在所有 C++ 提交中击败了89.87% 的用户
 // 内存消耗：12.2 MB, 在所有 C++ 提交中击败了5.06% 的用户
 ListNode* reverse(ListNode* head){

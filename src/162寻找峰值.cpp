@@ -1,6 +1,26 @@
 #include<bits/stdc++.h>
 using namespace std;
 
+// 执行用时：0 ms, 在所有 C++ 提交中击败了100.00% 的用户
+// 内存消耗：8.7 MB, 在所有 C++ 提交中击败了42.91% 的用户
+//2021.3.15递归的解法比较简单
+int findPeakElement(vector<int>& nums, int l, int h) {
+    if(l == h)return l;
+    if(l == h - 1)return (nums[l] > nums[h]?l:h);
+    int mid = (l + h) / 2;
+    if(nums[mid] > nums[mid + 1] && nums[mid] > nums[mid - 1])return mid;
+    else if(nums[mid] > nums[mid + 1]){
+        return findPeakElement(nums, l, mid);
+    }else{
+        return findPeakElement(nums, mid, h);
+    }
+}
+
+int findPeakElement(vector<int>& nums) {
+    int n = nums.size();
+    return findPeakElement(nums, 0, n - 1);
+}
+
 // 执行用时：4 ms, 在所有 C++ 提交中击败了98.81% 的用户
 // 内存消耗：9.1 MB, 在所有 C++ 提交中击败了6.49% 的用户
 //最近找到写二分的感觉2020.12.13

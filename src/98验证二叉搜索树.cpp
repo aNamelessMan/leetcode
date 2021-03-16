@@ -2,6 +2,28 @@
 #include "TreeNode.hpp"
 using namespace std;
 
+// 执行用时：12 ms, 在所有 C++ 提交中击败了88.95% 的用户
+// 内存消耗：21.1 MB, 在所有 C++ 提交中击败了53.28% 的用户
+//中序遍历过程中判断是不是严格从小到大即可
+bool isValidBST(TreeNode* root) {
+    stack<TreeNode*> stk;
+    long pre = (long)INT_MIN - 1;
+    while(root || !stk.empty()){
+        while(root){
+            stk.push(root);
+            root = root->left;
+        }
+        TreeNode* t = stk.top();
+        stk.pop();
+
+        if(t->val <= pre)return false;
+        else pre = t->val;
+
+        root = t->right;
+    }
+    return true;
+}
+
 // 执行用时：12 ms, 在所有 C++ 提交中击败了91.90% 的用户
 // 内存消耗：18.2 MB, 在所有 C++ 提交中击败了16.77% 的用户
 //时间波动很大

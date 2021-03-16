@@ -1,6 +1,34 @@
 #include<bits/stdc++.h>
 using namespace std;
 
+// 执行用时：88 ms, 在所有 C++ 提交中击败了83.59% 的用户
+// 内存消耗：19.4 MB, 在所有 C++ 提交中击败了91.10% 的用户
+vector<vector<int>> threeSum(vector<int>& nums) {
+    sort(nums.begin(), nums.end());
+    int n = nums.size();
+    vector<vector<int>> res;
+    if(n < 3)return res;
+    for(int i = 0; i < n - 2; i++){
+        int target = -nums[i];
+        if(i != 0 && nums[i - 1] == nums[i])continue;//去重
+        int l = i + 1, r = n - 1;
+        while(l < r){
+            if(nums[l] + nums[r] < target){
+                l++;
+            }else if(nums[l] + nums[r] > target){
+                r--;
+            }else{
+                res.push_back({nums[i], nums[l], nums[r]});
+                l++;//每个分支都必须要改变l/r，否则可能无限循环
+                r--;
+                while(l < r && nums[l] == nums[l - 1])l++;//去重
+                while(l < r && nums[r] == nums[r + 1])r--;
+            }
+        }
+    }
+    return res;
+}
+
 // 执行用时：72 ms, 在所有 C++ 提交中击败了95.78% 的用户
 // 内存消耗：19.5 MB, 在所有 C++ 提交中击败了71.08% 的用户
 vector<vector<int>> threeSum(vector<int>& nums) {
