@@ -12,7 +12,7 @@ using namespace std;
 ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
     ListNode* pa = headA, *pb = headB;
     while(pa != pb){
-        pa = pa == nullptr?headB:pa->next;
+        pa = pa == nullptr?headB:pa->next;//注意必须要让pa/pb可以到达nullptr的状态，否则如果没有交点会无限循环下去
         pb = pb == nullptr?headA:pb->next;
     }
     return pa;
