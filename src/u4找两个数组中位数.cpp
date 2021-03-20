@@ -1,6 +1,30 @@
 #include<bits/stdc++.h>
 using namespace std;
 
+int findkth(vector<int>& nums1, vector<int>& nums2, int l1, int h1, int l2, int h2, int k){
+    if(h1 - l1 > h2 - l2)return findkth(nums2, nums1, l2, h2, l1, h1, k);
+    if(l1 > h1)return nums2[l2 + k - 1];
+    if(l2 > h2)return nums1[l1 + k - 1];
+
+    if(k == 1)return min(nums1[l1], nums2[l2]);
+    int i = min(h1, l1 + k / 2 - 1), j = l2 + k / 2 - 1;
+    
+    if(nums1[i] < nums2[j]){
+        return findkth(nums1, nums2, i + 1, h1, l2, h2, k - (i - l1 + 1));
+    }else{
+        return findkth(nums1, nums2, l1, h1, j + 1, h2, k - (j - l2 + 1));
+    }
+}
+
+double findMedianSortedArrays(vector<int>& nums1, vector<int>& nums2) {
+    int m = nums1.size(), n = nums2.size(), s = m + n;
+    if(s % 2){
+        return findkth(nums1, nums2, 0, m - 1, 0, n - 1, s / 2 + 1);
+    }else{
+        return (findkth(nums1, nums2, 0, m - 1, 0, n - 1, s / 2) + findkth(nums1, nums2, 0, m - 1, 0, n - 1, s / 2 + 1)) * 0.5;
+    }
+}
+
 // 执行用时：32 ms, 在所有 C++ 提交中击败了92.99% 的用户
 // 内存消耗：86.8 MB, 在所有 C++ 提交中击败了86.41% 的用户
 //注意 k/2 + k/2 不一定等于 k   k可能为奇数

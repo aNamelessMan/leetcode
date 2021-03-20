@@ -3,24 +3,21 @@ using namespace std;
 
 // 执行用时：32 ms, 在所有 C++ 提交中击败了56.47% 的用户
 // 内存消耗：10.6 MB, 在所有 C++ 提交中击败了37.25% 的用户
-//2021.3.1二刷自己的写法，感觉更好
 int lengthOfLongestSubstring(string s) {
-    int n = s.size(), res = 0, l = 0, r = 0;//区间左闭右开
+    int res = 0, n = s.size(), l = 0, r = 0;
     unordered_set<char> cs;
     while(r < n){
-        while(!cs.count(s[r]) && r < n){//没遇到重复则右边界一直扩张
+        while(r < n && cs.find(s[r]) == cs.end()){
             cs.insert(s[r]);
             r++;
         }
-        res = max(res, r - l);//只有在扩张后才可能更新
-        while(s[l] != s[r]){//左边界一直收缩直到去除重复的字符
+        res = max(res, r - l);
+        while(r < n && l < r && s[l] != s[r]){
             cs.erase(s[l]);
             l++;
         }
         cs.erase(s[l]);
         l++;
-        cs.insert(s[r]);
-        r++;
     }
     return res;
 }

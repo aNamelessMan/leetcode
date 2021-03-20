@@ -1,6 +1,34 @@
 #include<bits/stdc++.h>
 using namespace std;
 
+// 执行用时：12 ms, 在所有 C++ 提交中击败了98.72% 的用户
+// 内存消耗：9.4 MB, 在所有 C++ 提交中击败了62.22% 的用户
+//2021.3.18
+//process函数只是用来递归标记所有已经计算过的岛，防止重复计算
+void process(vector<vector<char>>& grid, vector<vector<bool>> &points, int &res, int i, int j, int m, int n){
+    if(i < 0 || i >= m || j < 0 || j >= n || grid[i][j] == '0' || points[i][j])return;
+    points[i][j] = true;
+    process(grid, points, res, i - 1, j, m, n);
+    process(grid, points, res, i, j - 1, m, n);
+    process(grid, points, res, i + 1, j, m, n);
+    process(grid, points, res, i, j + 1, m, n);
+}
+
+int numIslands(vector<vector<char>>& grid) {
+    int m = grid.size(), n = grid[0].size(), res = 0;
+    vector<vector<bool>> points(m, vector<bool>(n, false));
+    for(int i = 0; i < m; i++){
+        for(int j = 0; j < n; j++){
+            if(grid[i][j] == '0' || points[i][j])continue;
+            else{
+                res++;
+                process(grid, points, res, i, j, m, n);
+            }
+        }
+    }
+    return res;
+}
+
 // 执行用时：24 ms, 在所有 C++ 提交中击败了99.31% 的用户
 // 内存消耗：10.3 MB, 在所有 C++ 提交中击败了13.78% 的用户
 //相比下面的就换了个数据结构快了好几倍  二维数组递归传递比较麻烦应该会更快

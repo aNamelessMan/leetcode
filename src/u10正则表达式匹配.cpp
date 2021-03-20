@@ -1,5 +1,41 @@
 #include <bits/stdc++.h>
 using namespace std;
+
+// 执行用时：208 ms, 在所有 C++ 提交中击败了11.08% 的用户
+// 内存消耗：14.1 MB, 在所有 C++ 提交中击败了5.02% 的用户
+//2021.3.19 注意x*可以匹配空字符
+bool isMatch(string s, string p) {
+    if(p.empty()){
+        return s.empty();
+    }
+    if(p.size() == 1){
+        if(p[0] == '.')return s.size() == 1;
+        else{
+            return s.size() == 1 && s[0] == p[0];
+        }
+    }
+    //运行到此处p.size()一定大于等于2
+    if(!s.empty()){
+        if(p[1] == '*'){
+            if(p[0] == '.'){
+                return isMatch(s.substr(1), p) || isMatch(s, p.substr(2));
+            }else if(p[0] == s[0]){
+                return isMatch(s.substr(1), p) || isMatch(s, p.substr(2));
+            }else{
+                return isMatch(s, p.substr(2));
+            }
+        }else{
+            if(p[0] == '.' || p[0] == s[0]){
+                return isMatch(s.substr(1), p.substr(1));
+            }else{
+                return false;
+            }
+        }
+    }
+    if(s.empty() && p[1] == '*')return isMatch(s, p.substr(2));
+    return false;
+}
+
 // 执行用时：700 ms, 在所有 C++ 提交中击败了13.87% 的用户
 // 内存消耗：9.8 MB, 在所有 C++ 提交中击败了17.58% 的用户
 //没做出来。。看的题解
