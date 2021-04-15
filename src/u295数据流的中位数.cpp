@@ -15,12 +15,12 @@ public:
     
     void addNum(int num) {
         bq.push(num);
-        if(bq.size() > sq.size() + 1){
+        if(bq.size() > sq.size() + 1){//确保两个堆中元素个数相差不超过1
             int t = bq.top();
             bq.pop();
             sq.push(-t);
         }
-        if(!bq.empty() && !sq.empty() && bq.top() > -sq.top()){//防止较大的数停留在小一半的堆中
+        if(!bq.empty() && !sq.empty() && bq.top() > -sq.top()){//防止较大的数停留在小一半的堆中 必须确保sq中的最大值 都小于 bq中的最小值
             int b = bq.top(), s = sq.top();
             bq.pop();
             sq.pop();
