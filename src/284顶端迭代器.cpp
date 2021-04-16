@@ -66,6 +66,45 @@ private:
     int cache;
 };
 
+// 执行用时：0 ms, 在所有 C++ 提交中击败了100.00% 的用户
+// 内存消耗：7.4 MB, 在所有 C++ 提交中击败了41.31% 的用户
+class PeekingIterator210416 : public Iterator {
+private:
+    queue<int> q;
+public:
+	PeekingIterator210416(const vector<int>& nums) : Iterator(nums) {
+	    // Initialize any member here.
+	    // **DO NOT** save a copy of nums and manipulate it directly.
+	    // You should only use the Iterator interface methods.
+	    
+	}
+	
+    // Returns the next element in the iteration without advancing the iterator.
+	int peek() {
+        if(!q.empty()){}
+        else{
+            q.push(Iterator::next());
+        }
+        return q.front();
+	}
+	
+	// hasNext() and next() should behave the same as in the Iterator interface.
+	// Override them if needed.
+	int next() {
+	    if(!q.empty()){
+            int res = q.front();
+            q.pop();
+            return res;
+        }else{
+            return Iterator::next();
+        }
+	}
+	
+	bool hasNext() const {
+	    return (!q.empty()) || Iterator::hasNext();
+	}
+};
+
 int main(){
     cout << "print something." << endl;
 }

@@ -1,0 +1,1 @@
+select product_name, regist_date from Product where regist_date > '2009-4-28';

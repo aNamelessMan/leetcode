@@ -2,6 +2,30 @@
 using namespace std;
 
 // 执行用时：0 ms, 在所有 C++ 提交中击败了100.00% 的用户
+// 内存消耗：6.3 MB, 在所有 C++ 提交中击败了46.23% 的用户
+bool wordPattern210416(string pattern, string s) {
+    unordered_map<char, string> m2str;
+    unordered_map<string, char> str2m;
+    istringstream str(s);
+    string t;
+    int i = 0, n = pattern.size();
+    while(i < n){
+        str >> t;
+        if(m2str.find(pattern[i]) == m2str.end() && str2m.find(t) == str2m.end()){
+            m2str[pattern[i]] = t;
+            str2m[t] = pattern[i];
+        }else if(m2str.find(pattern[i]) != m2str.end() && str2m.find(t) != str2m.end() && m2str[pattern[i]] == t && str2m[t] == pattern[i]){
+
+        }else{
+            return false;
+        }
+        i++;
+    }
+    if(str.eof() && i == n)return true;
+    return false;
+}
+
+// 执行用时：0 ms, 在所有 C++ 提交中击败了100.00% 的用户
 // 内存消耗：6.8 MB, 在所有 C++ 提交中击败了14.02% 的用户
 bool wordPattern(string pattern, string s) {
     unordered_map<char, int> patn;//映射每个字符到它第一次出现的下标
@@ -29,5 +53,5 @@ bool wordPattern(string pattern, string s) {
 }
 
 int main(){
-    cout << 1 << endl;
+    cout << wordPattern210416("aaa", "aa aa aa aa") << endl;
 }
