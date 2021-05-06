@@ -1,6 +1,37 @@
 #include<bits/stdc++.h>
-#include "dataStruc/ListNode.hpp"
+#include "../dataStruc/ListNode.hpp"
+#include "../dataStruc/listOps.hpp"
 using namespace std;
+
+// 执行用时：36 ms, 在所有 C++ 提交中击败了75.57% 的用户
+// 内存消耗：69.5 MB, 在所有 C++ 提交中击败了35.50% 的用户
+ListNode* thirdAddTwoNumbers(ListNode* l1, ListNode* l2) {
+    int carry = 0;
+    ListNode vn, *iter = &vn;
+    while(l1 && l2){
+        int v = l1->val + l2->val + carry, res = v % 10;
+        carry = v / 10;
+        iter->next = new ListNode(res);
+
+        iter = iter->next;
+        l1 = l1->next;
+        l2= l2->next;
+    }
+    ListNode *l = l1?l1:l2;
+    while(l){
+        int v = l->val + carry, res = v % 10;
+        carry = v / 10;
+        iter->next = new ListNode(res);
+
+        iter = iter->next;
+        l = l->next;
+    }
+    if(carry){
+        iter->next = new ListNode(carry);
+        iter = iter->next;
+    }
+    return vn.next;
+}
 
 // 执行用时：28 ms, 在所有 C++ 提交中击败了99.05% 的用户
 // 内存消耗：69.4 MB, 在所有 C++ 提交中击败了90.67% 的用户
@@ -10,7 +41,7 @@ using namespace std;
     2.注意结果首节点的处理，不要重复或漏掉
     3.全部计算完后，还要看看进位值是否为0，若不为0还要加一个值为1的节点
 */
-ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
+ListNode* secondAddTwoNumbers(ListNode* l1, ListNode* l2) {
     int carry = 0, sum = 0;
     if(l1 == nullptr)return l2;
     if(l2 == nullptr)return l1;
@@ -174,5 +205,8 @@ ListNode* myaddTwoNumbers(ListNode* l1, ListNode* l2) {
 }
 
 int main(){
-    cout << "print something." << endl;
+    ListNode *l1 = constructList(); 
+    ListNode *l2 = constructList();
+    ListNode *res = thirdAddTwoNumbers(l1, l2);
+    printList(res);
 }

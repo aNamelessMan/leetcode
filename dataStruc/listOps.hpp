@@ -6,18 +6,16 @@
 #include "ListNode.hpp"
 
 ListNode* constructList(){
-    ListNode *res = nullptr;
-    ListNode* t = nullptr;
+    ListNode res, *iter = &res;
     int x;
-    if(std::cin >> x){
-        res = new ListNode(x);
-        t = res;
-    }
+
     while(std::cin >> x){
-        t->next = new ListNode(x);
-        t = t->next;
+        if(x == -1)break;//用字符做结束符都会出错,服了
+        iter->next = new ListNode(x);
+        iter = iter->next;
     }
-    return res;
+
+    return res.next;
 }
 
 ListNode* constructList(std::vector<int> &vi){

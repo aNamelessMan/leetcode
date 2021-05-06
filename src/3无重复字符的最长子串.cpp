@@ -1,9 +1,31 @@
 #include<bits/stdc++.h>
 using namespace std;
 
+// 执行用时：20 ms, 在所有 C++ 提交中击败了66.99% 的用户
+// 内存消耗：8.8 MB, 在所有 C++ 提交中击败了47.20% 的用户
+//21.5.6三刷，感觉这次的写法写的最清楚，一次过
+int lengthOfLongestSubstring(string s) {
+    unordered_set<char> m;
+    int l = 0, r = 0, n = s.size(), res = 0;
+    while(r < n){
+        while(r < n && m.find(s[r]) == m.end()){
+            m.insert(s[r]);
+            r++;
+        }
+        res = max(res, r - l);
+        while(r < n && l < r && s[l] != s[r]){
+            m.erase(s[l]);
+            l++;
+        }
+        l++;
+        r++;
+    }
+    return res;
+}
+
 // 执行用时：32 ms, 在所有 C++ 提交中击败了56.47% 的用户
 // 内存消耗：10.6 MB, 在所有 C++ 提交中击败了37.25% 的用户
-int lengthOfLongestSubstring(string s) {
+int secondLengthOfLongestSubstring(string s) {
     int res = 0, n = s.size(), l = 0, r = 0;
     unordered_set<char> cs;
     while(r < n){
