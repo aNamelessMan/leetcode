@@ -1,6 +1,37 @@
 #include<bits/stdc++.h>
 using namespace std;
 
+// 执行用时：56 ms, 在所有 C++ 提交中击败了17.90% 的用户
+// 内存消耗：86.8 MB, 在所有 C++ 提交中击败了89.08% 的用户
+//21.5.8
+//包含nums1[i]和nums2[j]在内的两数组中的第k大的值
+double findkth(vector<int>& nums1, vector<int>& nums2, int m, int n, int i, int j, int k){
+    if(i == m){
+        return nums2[j + k - 1];
+    }else if(j == n){
+        return nums1[i + k - 1];
+    }else{
+        //!!!!!!! base case不要忘了，因为k为1时k/2为0后续不会继续排除
+        if(k == 1)return min(nums1[i], nums2[j]);
+        int p1 = min(m - 1, i + k / 2 - 1), p2 = min(n - 1, j + k / 2 - 1);//分割点及其之前 最多共有k / 2的数
+        if(nums1[p1] < nums2[p2]){
+            return findkth(nums1, nums2, m, n, p1 + 1, j, k - (p1 - i + 1));
+        }else{
+            return findkth(nums1, nums2, m, n, i, p2 + 1, k - (p2 - j + 1));
+        }
+    }
+}
+
+double myfindMedianSortedArrays(vector<int>& nums1, vector<int>& nums2) {
+    int m = nums1.size(), n = nums2.size(), s = m + n;
+    if(s % 2){
+        return findkth(nums1, nums2, m, n, 0, 0, s / 2 + 1);
+    }else{
+        return (findkth(nums1, nums2, m, n, 0, 0, s / 2 + 1) + findkth(nums1, nums2, m, n, 0, 0, s / 2)) / 2.0;
+    }
+}
+
+/*
 int findkth(vector<int>& nums1, vector<int>& nums2, int l1, int h1, int l2, int h2, int k){
     if(h1 - l1 > h2 - l2)return findkth(nums2, nums1, l2, h2, l1, h1, k);
     if(l1 > h1)return nums2[l2 + k - 1];
@@ -15,6 +46,7 @@ int findkth(vector<int>& nums1, vector<int>& nums2, int l1, int h1, int l2, int 
         return findkth(nums1, nums2, l1, h1, j + 1, h2, k - (j - l2 + 1));
     }
 }
+*/
 
 double findMedianSortedArrays(vector<int>& nums1, vector<int>& nums2) {
     int m = nums1.size(), n = nums2.size(), s = m + n;
@@ -29,6 +61,7 @@ double findMedianSortedArrays(vector<int>& nums1, vector<int>& nums2) {
 // 内存消耗：86.8 MB, 在所有 C++ 提交中击败了86.41% 的用户
 //注意 k/2 + k/2 不一定等于 k   k可能为奇数
 //递归的解法比较好理解
+/*
 int findkth(vector<int>& A, vector<int>& B, int l1 , int h1, int l2, int h2, int k){//找到两个数组中第k大的数
     if(A.size() > B.size())return findkth(B, A, l2, h2, l1, h1, k);//统一成A大小小于等于B，这样只有A的大小可能小于k/2
     //A/B已经排除完毕时
@@ -56,6 +89,7 @@ double findMedianSortedArrays(vector<int>& nums1, vector<int>& nums2) {
         return (l + r) / double(2);//转为浮点数
     }
 }
+*/
 
 class Solution {
 public:
@@ -143,7 +177,10 @@ public:
 };
 
 int main(){
-    vector<int> sz1 = {2, 2, 4, 4};
-    vector<int> sz2 = {2, 2, 4, 4};
-    cout << findMedianSortedArrays(sz1,sz2) << endl;
+    // vector<int> sz1 = {2, 2, 4, 4};
+    // vector<int> sz2 = {2, 2, 4, 4};
+    // cout << findMedianSortedArrays(sz1,sz2) << endl;
+    vector<int> sz1 = {1, 3};
+    vector<int> sz2 = {2};
+    cout << myfindMedianSortedArrays(sz1,sz2) << endl;
 }

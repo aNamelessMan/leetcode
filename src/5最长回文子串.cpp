@@ -1,6 +1,35 @@
 #include<bits/stdc++.h>
 using namespace std;
 
+// 执行用时：32 ms, 在所有 C++ 提交中击败了76.53% 的用户
+// 内存消耗：13.9 MB, 在所有 C++ 提交中击败了65.79% 的用户
+//2021.5.8三刷
+string longestPalindrome(string s) {
+    int n = s.size(), res = 0;
+    string str;
+    for(int i = 0; i < n; i++){
+        //分别讨论s[i]为对称轴和两个对称轴中左边的情况
+        int len = 0;
+        while(i - len >= 0 && i + len < n && s[i - len] == s[i + len]){
+            len++;
+        }
+        if(2 * len - 1 > res){
+            res = 2 * len - 1;
+            str = s.substr(i - len + 1, 2 * len - 1);//记得把起始点退后1，因为len时此时是不满足回文的
+        }
+
+        len = 0;
+        while(i - len >= 0 && i + len + 1 < n && s[i - len] == s[i + len + 1]){
+            len++;
+        }
+        if(2 * len > res){
+            res = 2 * len;
+            str = s.substr(i - len + 1, 2 * len);
+        }
+    }
+    return str;
+}
+
 // 执行用时：20 ms, 在所有 C++ 提交中击败了90.80% 的用户
 // 内存消耗：14 MB, 在所有 C++ 提交中击败了61.59% 的用户
 //2021.3.1二刷  中心扩散法
