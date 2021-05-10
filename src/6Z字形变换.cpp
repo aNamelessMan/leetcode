@@ -1,7 +1,3 @@
-// 执行用时：0 ms, 在所有 C++ 提交中击败了100.00% 的用户
-// 内存消耗：7.9 MB, 在所有 C++ 提交中击败了98.21% 的用户
-//忘了考虑边界情况：numRows == 1 导致第三次提交才成功
-//判断s.size() <= numRows会简化有些计算，不影响正确性，可以省略
 #include <iostream>
 using namespace std;
 
@@ -30,6 +26,10 @@ string secondconvert(string s, int numRows) {
     return res;
 }
 
+// 执行用时：0 ms, 在所有 C++ 提交中击败了100.00% 的用户
+// 内存消耗：7.9 MB, 在所有 C++ 提交中击败了98.21% 的用户
+//忘了考虑边界情况：numRows == 1 导致第三次提交才成功
+//判断s.size() <= numRows会简化有些计算，不影响正确性，可以省略
 string convert(string s, int numRows) {
     if(s.size() <= numRows || numRows == 1)return s;
     int idx = 0;
