@@ -1,6 +1,22 @@
 #include<bits/stdc++.h>
 using namespace std;
 
+// 执行用时：96 ms, 在所有 C++ 提交中击败了58.54% 的用户
+// 内存消耗：57.6 MB, 在所有 C++ 提交中击败了45.06% 的用户
+// 21.5.12三刷  思路很简单
+int maxArea(vector<int>& height) {
+    int n = height.size(), l = 0, r = n - 1, res = 0;
+    while(l != r){
+        res = max(res, (r - l) * min(height[l], height[r]));
+        if(height[l] < height[r]){
+            l++;
+        }else{
+            r--;
+        }
+    }
+    return res;
+}
+
 // 执行用时：84 ms, 在所有 C++ 提交中击败了12.01% 的用户
 // 内存消耗：57.7 MB, 在所有 C++ 提交中击败了5.09% 的用户
 //2021.3.9二刷还是不会写...

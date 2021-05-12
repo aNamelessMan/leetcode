@@ -1,5 +1,42 @@
 #include<bits/stdc++.h>
 using namespace std;
+
+// 执行用时：8 ms, 在所有 C++ 提交中击败了68.28% 的用户
+// 内存消耗：5.7 MB, 在所有 C++ 提交中击败了90.80% 的用户
+// 21.5.12二刷，做法和以前一样
+string intToRoman(int n, string one, string five, string ten){
+    string res;
+    if(n == 0){}
+    else if(n == 9){
+        res = one + ten;
+    }
+    else if(n <= 3){
+        while(n){
+            res += one;
+            n--;
+        }
+    }else if(n == 4){
+        res = one + five;
+    }else{
+        res = five;
+        n -= 5;
+        while(n){
+            res += one;
+            n--;
+        }
+    }
+    return res;
+}
+
+string intToRoman(int num) {
+    string res;
+    res += intToRoman(num / 1000 % 10, "M", " ", " ");
+    res += intToRoman(num / 100 % 10, "C", "D", "M");
+    res += intToRoman(num / 10 % 10, "X", "L", "C");
+    res += intToRoman(num / 1 % 10, "I", "V", "X");
+    return res;
+}
+
 // 执行用时：4 ms, 在所有 C++ 提交中击败了98.20% 的用户
 // 内存消耗：5.7 MB, 在所有 C++ 提交中击败了99.97% 的用户
 void calc(string &res, char t, char f, char o, int num){
