@@ -4,6 +4,30 @@
 #include <stack>
 using namespace std;
 
+// 执行用时：184 ms, 在所有 C++ 提交中击败了5.25% 的用户
+// 内存消耗：86.8 MB, 在所有 C++ 提交中击败了5.01% 的用户
+//单调栈    2021.6.7自己的解法
+vector<int> dailyTemperatures(vector<int>& temperatures) {
+    int n = temperatures.size();
+    vector<int> res(n, 0);
+    stack<int> idx;
+    int i = 0;
+    idx.push(i);
+    i++;
+    while(i < n){
+        if(idx.empty() || temperatures[i] <= temperatures[idx.top()]);
+        else{
+            while(!idx.empty() && temperatures[i] > temperatures[idx.top()]){//注意维护递减栈要把所有小于当前元素的值出栈
+                res[idx.top()] = i - idx.top();
+                idx.pop();
+            }
+        }
+        idx.push(i);
+        i++;
+    }
+    return res;
+}
+
 vector<int> BFdailyTemperatures(vector<int>& T) {//暴力解法TLE  O(N^2)
     vector<int> res;
     for(unsigned j = 0; j < T.size(); j++){
