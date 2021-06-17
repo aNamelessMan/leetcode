@@ -1,6 +1,26 @@
 #include<bits/stdc++.h>
 #include "ListNode.hpp"
 using namespace std;
+
+// 执行用时：4 ms, 在所有 C++ 提交中击败了82.61% 的用户
+// 内存消耗：10.4 MB, 在所有 C++ 提交中击败了43.48% 的用户
+ListNode* removeNthFromEnd(ListNode* head, int n) {
+    ListNode v, *pre = &v;
+    v.next = head;
+    ListNode *todel = head, *aft = head;
+    while(n){
+        aft = aft->next;
+        n--;
+    }
+    while(aft){
+        aft = aft->next;
+        todel = todel->next;
+        pre = pre->next;
+    }
+    pre->next = pre->next->next;
+    return v.next;//这里如果返回head，在sz和n都为1时会出错
+}
+
 // 执行用时：12 ms, 在所有 C++ 提交中击败了53.25% 的用户
 // 内存消耗：10.4 MB, 在所有 C++ 提交中击败了5.05% 的用户
 ListNode* removeNthFromEnd(ListNode* head, int n) {
