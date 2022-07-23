@@ -3,6 +3,36 @@
 #include "../dataStruc/listOps.hpp"
 using namespace std;
 
+// 执行用时：24 ms, 在所有 C++ 提交中击败了74.91%的用户
+// 内存消耗：69.4 MB, 在所有 C++ 提交中击败了47.78%的用户
+// 通过测试用例：1568 / 1568
+ListNode* addTwoNumbers4(ListNode* l1, ListNode* l2) {
+    ListNode* ret = new ListNode;
+    ListNode* iter = ret;
+    int carry = 0;
+    while(l1 || l2 || carry){
+        int t = carry;
+        if(l1){
+            t += l1->val;
+        }
+        if(l2){
+            t += l2->val;
+        }
+        carry = t / 10;
+        t = t % 10;
+        iter->next = new ListNode(t, nullptr);
+        iter = iter->next;
+        if(l1){
+            l1 = l1->next;
+        }
+        if(l2){
+            l2 = l2->next;
+        }
+    }
+    return ret->next;
+}
+
+
 // 执行用时：36 ms, 在所有 C++ 提交中击败了75.57% 的用户
 // 内存消耗：69.5 MB, 在所有 C++ 提交中击败了35.50% 的用户
 ListNode* thirdAddTwoNumbers(ListNode* l1, ListNode* l2) {
