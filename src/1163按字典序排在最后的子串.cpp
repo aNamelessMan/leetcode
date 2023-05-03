@@ -14,6 +14,7 @@ using namespace std;
 
 class Solution{
 public:
+//    注意到 1. 前缀相同，字符串越长字典序越靠后 2.字典序越靠后的字符串首字母一定越靠后
 //note3/4 : Since the limits are high, we need an efficient data structure. / Use suffix array.
 //双指针？
     string  lastSubstring(string s){
