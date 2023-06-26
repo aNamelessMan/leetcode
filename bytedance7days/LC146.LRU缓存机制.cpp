@@ -1,6 +1,51 @@
 #include<bits/stdc++.h>
 using namespace std;
 
+// 2023 618再刷
+class FooLRUCache {
+public:
+    LRUCache(int capacity) {
+        cap = capacity;
+    }
+    
+    int get(int key) {
+        auto i = m.find(key);
+        if(i == m.end()){
+            return -1;
+        }else{
+            auto p = i->second;
+            pair<int, int> t = *p;
+            l.erase(p);
+            l.push_back(t);
+            m[key] = (--l.end());
+            return l.rbegin()->second;
+        }
+    }
+    
+    void put(int key, int value) {
+        auto i = m.find(key);
+        if(i != m.end()){
+            auto p = i->second;
+            pair<int, int> t{key, value};
+            l.erase(p);
+            l.push_back(t);
+            m[key] = (--l.end());
+        }else{
+            if(l.size() == cap){
+                m.erase(m.find(l.begin()->first));
+                l.erase(l.begin());
+            }
+            pair<int, int> p(key, value);
+            l.push_back(p);
+            m[key] = (--l.end());
+        }
+    }
+private:
+    size_t cap;
+    list<pair<int, int>> l;
+    unordered_map<int, list<pair<int, int>>::iterator> m;
+};
+
 // 执行用时：100 ms, 在所有 C++ 提交中击败了88.02% 的用户
 // 内存消耗：41.2 MB, 在所有 C++ 提交中击败了19.91% 的用户
 //2021.2.23日二刷
