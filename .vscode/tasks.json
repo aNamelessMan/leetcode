@@ -6,6 +6,7 @@
             "command": "/opt/homebrew/bin/g++-12",
             "args": [
                 "-fdiagnostics-color=always",
+                "-ld_classic", //to fix xcode15's bug according to https://stackoverflow.com/questions/77153800/xcode-15-c-compilation-errors
                 "-g",
                 "${file}",
                 "-o",
