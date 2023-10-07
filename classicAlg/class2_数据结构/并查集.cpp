@@ -13,13 +13,16 @@ public:
         }
         size_.resize(size + 1, 1);
     }
-    // 将元素a和b所在集合合并
+
+    // 两个操作的复杂度几乎都是O(1)
+    // 操作一：将元素a和b所在集合合并
     void Merge(int idx_a, int idx_b) {
         if (find(idx_a) != find(idx_b)) {  // 不在同一集合
             size_[find(idx_b)] += size_[find(idx_a)];
         }
         parent_[find(idx_a)] = find(idx_b);
     }
+    // 操作二：询问元素a b是否在同一集合
     bool Query(int idx_a, int idx_b) { return find(idx_a) == find(idx_b); }
     int Count(int idx) { return size_[find(idx)]; }
 
