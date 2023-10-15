@@ -23,10 +23,9 @@ int bs(const vector<int> &v, int l, int r, int target) {
 int main() {
     int n, t;
     cin >> n;
-    vector<int> a;
     // 只需记录每个长度子序列的最小末尾值即可用于后续判断是否可形成更长上升子序列
     vector<int> max_length(n + 1, INT_MAX);
-    /* max_length[i]表示长度为i的所有子序列的最小末尾值，INT_MAX表示无该长度的子序列
+    /* max_length[i]表示长度为i的所有上升子序列的最小末尾值，INT_MAX表示无该长度的子序列
     max_length一定是单调递增的（
         否则会有矛盾，若max_length[i - 1] >= max_length[i]，
         那么对应max_length[i]）这个子序列中的倒数第二个数
