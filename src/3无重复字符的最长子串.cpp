@@ -161,4 +161,40 @@ int mylengthOfLongestSubstring(string s) {
     return res;
 }
 
+/*
+思路还是比较清晰的，找每个右边界的最长区间，因为右边界向右扩展，最长区间的左边界要么不动要么也向右，所以双指针单向遍历O（n）
+可以算作动态规划/滑动窗口
+*/
+class Solution20240912 {
+public:
+    int lengthOfLongestSubstring(string s) {
+        int sz = s.size();
+        if (sz == 0 || sz == 1) return sz;
+        unordered_map<char, int> existed_chars;
+        existed_chars[s[0]] = 1;
+        int res = 1;
+        int i = 0;
+        int j = 1;
+        while (j < sz) {
+            while (j < sz && existed_chars[s[j]] == 0) {
+                existed_chars[s[j]]++;
+                j++;
+            }
+            res = max(res, j - i);
+            if (j == sz) return res;
+
+            while (i < j && s[i] != s[j]) {
+                existed_chars[s[i]]--;
+                i++;
+            }
+            existed_chars[s[i]]--;
+            i++;
+            existed_chars[s[j]]++;
+            j++;
+            res = max(res, j - i);
+        }
+        return res;
+    }
+};
+
 int main() { cout << "print something." << endl; }
