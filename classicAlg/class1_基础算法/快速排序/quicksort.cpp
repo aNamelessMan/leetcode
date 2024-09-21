@@ -44,7 +44,8 @@ void quicksort(std::vector<int> &A, int l, int h) {
 }
 
 void quicksort(std::vector<int> &A) {
-    std::random_shuffle(A.begin(), A.end());
+    std::random_shuffle(A.begin(),
+                        A.end());  // 但这样对于全部一样的数仍然会退化到n^2
     quicksort(A, 0, A.size() - 1);
 }
 
@@ -63,3 +64,57 @@ int quickselect(std::vector<int> &A, int k) {
     int r = A.size() - 1;
     return quickselect(A, k, l, r);
 }
+
+/*
+
+#include <bits/stdc++.h>
+
+using namespace std;
+
+int partition(vector<int>& input, int l, int r) {
+    int t = input[r - 1];
+    int to_set = l;
+    for (int i = l; i < r - 1; i++) {
+        if (input[i] < t) {
+            std::swap(input[i], input[to_set]);
+            to_set ++;
+        }
+    }
+    std::swap(input[r- 1], input[to_set]);
+    return to_set;
+}
+
+void quick_sort(vector<int>& input, int l, int r) {
+    if (l>= r) return;
+    int p = partition(input, l, r);
+    quick_sort(input, l, p);
+    quick_sort(input, p + 1, r);
+}
+
+int main() {
+    int sz;
+    cin >> sz;
+    vector<int> arr;
+    arr.reserve(sz);
+    int t;
+    while (cin >> t) {
+        arr.push_back(t);
+    }
+
+    // 打乱 加 特判 过 有序 和 全都一样 的 用例
+    std::random_shuffle(arr.begin(), arr.end());
+    int first = arr[0];
+    int i = 1;
+    for (; i < sz; i++) {
+        if (arr[i] != first) break;
+    }
+    if (i != sz) {
+        quick_sort(arr, 0, sz);
+    }
+
+    for (const auto& no : arr) {
+        cout << no << " ";
+    }
+    cout << endl;
+}
+*/
