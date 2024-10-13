@@ -1,6 +1,28 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+// 感觉这次最清楚 一遍过
+class Solution241013 {
+public:
+    int lengthOfLongestSubstring(string s) {
+        int sz = s.size();
+        int res = 0;
+        int l = 0;
+        int r = 0;
+        unordered_set<char> chars;
+        while (r < sz) {
+            while (l < r && r < sz && chars.find(s[r]) != chars.end()) {
+                chars.erase(s[l]);
+                l++;
+            }
+            chars.insert(s[r]);
+            r++;
+            res = max(res, r - l);
+        }
+        return res;
+    }
+};
+
 class Solution231016 {
 public:
     int lengthOfLongestSubstring(string s) {

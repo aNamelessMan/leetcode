@@ -75,9 +75,12 @@ int bs2(const std::vector<int> &vi, int l, int r) {
     }
     return l;
 }
-
+// 左右都是闭区间！！！！！！！！
 int main() {
     vector<int> nums{1, 2, 3, 4, 5, 6, 7, 8};
     cout << "bs1: " << nums[bs1(nums, 0, nums.size() - 1)] << endl;
     cout << "bs2: " << nums[bs2(nums, 0, nums.size() - 1)] << endl;
+    vector<int> nums1{5};
+    cout << "bs2/nums1: " << nums1[bs2(nums1, 0, nums1.size() - 1)] << endl;
+    cout << "bs1/nums1: " << nums1[bs1(nums1, 0, nums1.size() - 1)] << endl;
 }

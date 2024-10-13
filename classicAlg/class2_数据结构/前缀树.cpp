@@ -1,4 +1,5 @@
 #include <iostream>
+#include <map>
 #include <unordered_map>
 
 using namespace std;
@@ -19,6 +20,7 @@ output:
 class TrieNode {
 public:
     // 两个接口都是假定自己当前节点的字符已经被迭代过了，根据头部找下一个节点
+    // 即在当前节点的sub_node_里找target[start]这个字符
     void insert(const string& target, size_t start) {
         // 没有下一节点了，则当前节点计数+1
         if (start == target.size()) {
@@ -46,7 +48,9 @@ public:
 
 private:
     int count_ = 0;
-    unordered_map<char, TrieNode*> sub_node_;
+    // unordered_map<char, TrieNode*> sub_node_;
+    map<char, TrieNode*>
+        sub_node_;  // 这样就是名副其实的前缀树了，map的实现就是树
 };
 
 int main() {
