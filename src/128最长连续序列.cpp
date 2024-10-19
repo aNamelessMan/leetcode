@@ -1,7 +1,31 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-// 并查集的做法 O(1)
+class Solution241015 {
+public:
+    int longestConsecutive(vector<int>& nums) {
+        unordered_set<int> nums_set;
+        for (const auto& num : nums) {
+            nums_set.insert(num);
+        }
+        int res = 0;
+        for (const auto num : nums_set) {
+            // 不是连续序列的开头值不用管
+            if (nums_set.find(num - 1) != nums_set.end()) {
+                continue;
+            } else {
+                int iter = num;
+                while (nums_set.find(iter) != nums_set.end()) {
+                    iter++;
+                }
+                res = max(res, iter - num);
+            }
+        }
+        return res;
+    }
+};
+
+// 并查集的做法 O(n)
 class Solution {
 public:
     int longestConsecutive(vector<int>& nums) {
@@ -43,7 +67,7 @@ private:
     unordered_map<int, int> cnt;
 };
 
-// 简单的O(1)做法
+// 简单的O(n)做法
 class SimpleSolution {
 public:
     int longestConsecutive(vector<int>& nums) {
