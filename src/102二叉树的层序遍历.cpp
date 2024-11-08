@@ -3,97 +3,133 @@
 #include "TreeNode.hpp"
 using namespace std;
 
+// 阿里妈妈三面
+class Solution241107 {
+public:
+  vector<vector<int>> levelOrder(TreeNode *root) {
+    vector<vector<int>> res;
+    if (root == nullptr)
+      return res;
+    queue<TreeNode *> q;
+    vector<int> t;
+    q.push(root);
+    q.push(nullptr); // flag
+    while (!q.empty()) {
+      TreeNode *node = q.front();
+      q.pop();
+      t.push_back(node->val);
+      if (node->left != nullptr) {
+        q.push(node->left);
+      }
+      if (node->right != nullptr) {
+        q.push(node->right);
+      }
+      if (q.front() == nullptr) {
+        res.push_back(t);
+        t.clear();
+        q.pop();
+        if (!q.empty())
+          q.push(nullptr);
+      }
+    }
+    return res;
+  }
+};
+
 class Solution231009 {
 public:
-    vector<vector<int>> levelOrder(TreeNode* root) {
-        vector<vector<int>> res;
-        unordered_map<TreeNode*, int> m;
-        queue<TreeNode*> q;
-        q.push(root);
-        m[root] = 0;
-        while (!q.empty()) {
-            TreeNode* t = q.front();
-            q.pop();
-            if (!t) continue;
-            if (m[t] == res.size()) {
-                res.emplace_back(vector<int>(1, t->val));
-            } else {
-                res.back().push_back(t->val);
-            }
-            // 不判断也无所谓，因为后续遍历到时会判断，为空直接跳过
-            if (t->left) {
-                q.push(t->left);
-                m[t->left] = m[t] + 1;
-            }
-            if (t->right) {
-                q.push(t->right);
-                m[t->right] = m[t] + 1;
-            }
-        }
-        return res;
+  vector<vector<int>> levelOrder(TreeNode *root) {
+    vector<vector<int>> res;
+    unordered_map<TreeNode *, int> m;
+    queue<TreeNode *> q;
+    q.push(root);
+    m[root] = 0;
+    while (!q.empty()) {
+      TreeNode *t = q.front();
+      q.pop();
+      if (!t)
+        continue;
+      if (m[t] == res.size()) {
+        res.emplace_back(vector<int>(1, t->val));
+      } else {
+        res.back().push_back(t->val);
+      }
+      // 不判断也无所谓，因为后续遍历到时会判断，为空直接跳过
+      if (t->left) {
+        q.push(t->left);
+        m[t->left] = m[t] + 1;
+      }
+      if (t->right) {
+        q.push(t->right);
+        m[t->right] = m[t] + 1;
+      }
     }
+    return res;
+  }
 };
 
 // 执行用时：4 ms, 在所有 C++ 提交中击败了83.02% 的用户
 // 内存消耗：12.3 MB, 在所有 C++ 提交中击败了12.74% 的用户
-vector<vector<int>> levelOrder(TreeNode* root) {
-    vector<vector<int>> res;
-    if (!root) return res;
-    unordered_map<TreeNode*, int> m;  // 记录层数
-    m[root] = 0;
-    queue<TreeNode*> q;
-    q.push(root);
-    while (!q.empty()) {
-        TreeNode* t = q.front();
-        q.pop();
-        if (!t) continue;
-        if (m[t] == int(res.size())) {
-            res.push_back(vector<int>(1, t->val));
-        } else {
-            res[res.size() - 1].push_back(t->val);
-        }
-        q.push(t->left);
-        q.push(t->right);
-        m[t->left] = m[t] + 1;
-        m[t->right] = m[t] + 1;
-    }
+vector<vector<int>> levelOrder(TreeNode *root) {
+  vector<vector<int>> res;
+  if (!root)
     return res;
+  unordered_map<TreeNode *, int> m; // 记录层数
+  m[root] = 0;
+  queue<TreeNode *> q;
+  q.push(root);
+  while (!q.empty()) {
+    TreeNode *t = q.front();
+    q.pop();
+    if (!t)
+      continue;
+    if (m[t] == int(res.size())) {
+      res.push_back(vector<int>(1, t->val));
+    } else {
+      res[res.size() - 1].push_back(t->val);
+    }
+    q.push(t->left);
+    q.push(t->right);
+    m[t->left] = m[t] + 1;
+    m[t->right] = m[t] + 1;
+  }
+  return res;
 }
 
 // 执行用时：0 ms, 在所有 C++ 提交中击败了100.00% 的用户
 // 内存消耗：11.8 MB, 在所有 C++ 提交中击败了10.80% 的用户
 // bfs即可，但是注意需要维护一个map来表示各节点所在层数
-vector<vector<int>> firstlevelOrder(TreeNode* root) {
-    queue<TreeNode*> qt;
-    unordered_map<TreeNode*, int> ceng;
-    vector<vector<int>> res;
-    if (root) {
-        qt.push(root);
-        ceng.insert({root, 0});
+vector<vector<int>> firstlevelOrder(TreeNode *root) {
+  queue<TreeNode *> qt;
+  unordered_map<TreeNode *, int> ceng;
+  vector<vector<int>> res;
+  if (root) {
+    qt.push(root);
+    ceng.insert({root, 0});
+  }
+  int i = 0;
+  while (!qt.empty()) {
+    TreeNode *t = qt.front();
+    qt.pop();
+    if (t) {
+      if (res.size() > ceng[t])
+        res[ceng[t]].push_back(t->val);
+      else {
+        res.push_back({});
+        res[ceng[t]].push_back(t->val);
+      }
     }
-    int i = 0;
-    while (!qt.empty()) {
-        TreeNode* t = qt.front();
-        qt.pop();
-        if (t) {
-            if (res.size() > ceng[t])
-                res[ceng[t]].push_back(t->val);
-            else {
-                res.push_back({});
-                res[ceng[t]].push_back(t->val);
-            }
-        }
 
-        if (t->left) {
-            qt.push(t->left);
-            ceng.insert({t->left, ceng[t] + 1});
-        }
-        if (t->right) {
-            qt.push(t->right);
-            ceng.insert({t->right, ceng[t] + 1});
-        }
+    if (t->left) {
+      qt.push(t->left);
+      ceng.insert({t->left, ceng[t] + 1});
     }
-    return res;
+    if (t->right) {
+      qt.push(t->right);
+      ceng.insert({t->right, ceng[t] + 1});
+    }
+  }
+  return res;
 }
 
 int main() { cout << 1 << endl; }
